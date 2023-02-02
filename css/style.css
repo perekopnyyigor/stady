@@ -1,0 +1,98 @@
+.my_href
+{
+    text-decoration: none;
+}
+.my_card
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
+
+
+    float: left;
+    margin: 5px;
+    padding: 5px;
+}
+.my_card:hover
+{
+    box-shadow: 0 8px 18px 0 rgba(0,0, 0, 0.2);
+}
+.my_item
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
+    width: 300px;
+
+    margin: 5px;
+    padding: 5px;
+    border-radius: 2px;
+}
+.my_item-1
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
+    width: 300px;
+
+    margin: 5px;
+    padding: 5px;
+    border-radius: 2px;
+    margin-left: 30px;
+
+}
+.my_item-2
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
+    width: 300px;
+
+    margin: 5px;
+    padding: 5px;
+    border-radius: 2px;
+    margin-left: 60px;
+
+}
+.my_item,.my_item-1,.my_item-2:hover
+{
+    box-shadow: 0 8px 18px 0 rgba(0,0, 0, 0.2);
+}
+.my_card_name
+{
+
+    border: 3px solid #06266F;
+    border-radius: 8px;
+    margin: 5px;
+    padding: 5px;
+    width: 50%;
+}
+.my_card_content
+{
+    border: 3px solid #06266F;
+    border-radius: 8px;
+    margin: 5px;
+    margin-left: 20%;
+    padding: 5px;
+    width: 50%;
+}
+.my_card_right
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
+    width: 100px;
+    height: 50px;
+    float: left;
+    margin: 5px;
+    padding: 5px;
+}
+.my_card_right:active
+{
+    background-color: greenyellow;
+}
+.my_card_wrong
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
+    width: 100px;
+    height: 50px;
+    float: left;
+    margin: 5px;
+    padding: 5px;
+}
+.my_card_wrong:active
+{
+    background-color: darksalmon ;
+}
+
+
