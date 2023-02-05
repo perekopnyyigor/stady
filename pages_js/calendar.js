@@ -34,7 +34,7 @@ class  Calendar
         content+="<tr>";
         for (let i=0;i<dat_arr.length;i++)
         {
-            content+="<th width='200'>"+dat_arr[i]+"</th>";
+            content+="<th width='200'>"+Calendar.date(dat_arr[i])+"</th>";
         }
         content+="</tr>";
 
@@ -90,5 +90,10 @@ class  Calendar
         }
         content +='</div>';
         return content;
+    }
+    static date(str_date)
+    {
+        let date = new Date(str_date);
+        return date.toLocaleDateString();
     }
 }

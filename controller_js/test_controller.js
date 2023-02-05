@@ -119,13 +119,17 @@ class TestController
         let rew = confirm("Пожалуйста оставьте ваш отзыв или пожелание");
         if(rew)
         {
-            document.getElementById("test").innerHTML = Test.review();
+
         }
         else
         {
             window.location.href="http://localhost/index.php?action=open_topic&topic_id="+TestController.data.id+"&cours_id="+TestController.data.cours;
 
         }
+    }
+    static rew()
+    {
+        document.getElementById("test").innerHTML = Test.review();
     }
     static result()
     {
@@ -139,7 +143,11 @@ class TestController
         };
         let data_js = JSON.stringify(data_lesson);
         Model.add_try(data_js);
-        TestController.review();
+        if(localStorage.getItem("rewiev")==0)
+            TestController.review();
+        else
+            window.location.href="http://localhost/index.php?action=open_topic&topic_id="+TestController.data.id+"&cours_id="+TestController.data.cours;
+
     }
     static review_action()
     {
@@ -150,6 +158,7 @@ class TestController
         };
         let data_js = JSON.stringify(data_rewiew);
         Model.ajax(data_js,"add_rewiev");
+        localStorage.setItem("rewiev",1);
         alert("Спасибо за отзыв");
         window.location.href="http://localhost/index.php?action=open_topic&topic_id="+TestController.data.id+"&cours_id="+TestController.data.cours;
     }

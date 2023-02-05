@@ -26,25 +26,15 @@ class Test{
 
         if(data.task!=null)
         {
-            Test.task = data.task;
+            Test.task = data.task;//
             content+='<div id="task">Задание: '+ data.task+'</div>';
         }
 
 
         content+='<div class="card">';
-
         content+='<div id = "result" class="card-body">'+Test.res(0)+'</div>';
-
         content+='<div id = "hint" class="card-footer text-muted">Подсказка:'+Test.hint[0]+'</div>';
-
         content+='</div>';
-
-
-
-
-
-
-
         content+='Правильных ответов: <span id="error">'+Test.true_answers()+'</span>';
         content+='Прогресс: <span id="progress">'+Test.progress()+'</span>';
         content+='</div></div>';
@@ -109,29 +99,50 @@ class Test{
 
         return result
     }
+    static shuffle(array) {
+        array.sort(() => Math.random() - 0.5);
+    }
     static variant(count)
     {
         let result = "";
         result += '<ul class="list-group">';
         result += '<li class="list-group-item active" aria-current="true">Варианты</li>';
-
+        let random = [];
         if(Test.type==3)
         {
-            for(let i=count;i<Test.contentArr.length;i++)
+
+         /*   for(let i=count;i<Test.contentArr.length;i++)
             {
                 if(i%2==1)
                 {
                     result +='<a href="#" onclick="TestController.answer(\''+Test.contentArr[i]+'\')" class="list-group-item list-group-item-action">';
-
                     result += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="language-javascript">'+Test.contentArr[i]+'</code></pre>';
                     result += '</a>';
                 }
 
+            }*/
+            let content=[];
+            let j=0;
+            for(let i=count;i<Test.contentArr.length;i++)
+            {
+                let text='';
+                if(i%2==1)
+                {
+                    text +='<a href="#" onclick="TestController.answer(\''+Test.contentArr[i]+'\')" class="list-group-item list-group-item-action">';
+                    text += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="language-javascript">'+Test.contentArr[i]+'</code></pre>';
+                    text += '</a>';
+                }
+                content[j]=text;
+                j++;
             }
-
+            Test.shuffle(content);
+            for(let i=0;i<content.length;i++)
+            {
+                result+=content[i];
+            }
         }
        else if(Test.type==2)
-        {
+        {/*
             for(let i=count;i<Test.contentArr.length;i++)
             {
                 if(i%2==1)
@@ -143,21 +154,61 @@ class Test{
 
 
             }
+*/
+            let content=[];
+            let j=0;
+            for(let i=count;i<Test.contentArr.length;i++)
+            {
+                let text='';
+                if(i%2==1)
+                {
+                    text +='<a href="#" class="list-group-item list-group-item-action" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
+                    text +='<formula >'+Test.contentArr[i]+'</formula>';
+                    text += '</a>';
+                }
+                content[j]=text;
+                j++;
+            }
+            Test.shuffle(content);
+            for(let i=0;i<content.length;i++)
+            {
+                result+=content[i];
+            }
 
         }
         else
         {
+            /*
             for(let i=count;i<Test.contentArr.length;i++)
             {
                 if(i%2==1)
                 {
-                    result +='<a href="#" class="list-group-item list-group-item-action" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
-                    result +=Test.contentArr[i];
+                    result +='<a href="#" class="list-group-item list-group-item-action" onclick="TestController.answer(\''+Test.contentArr[random[i]]+'\')">';
+                    result +=Test.contentArr[random[i]];
                     result += '</a>';
                 }
 
             }
-
+*/
+            let content=[];
+            let j=0;
+            for(let i=count;i<Test.contentArr.length;i++)
+            {
+                let text='';
+                if(i%2==1)
+                {
+                    text +='<a href="#" class="list-group-item list-group-item-action" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
+                    text +=Test.contentArr[i];
+                    text += '</a>';
+                }
+                content[j]=text;
+                j++;
+            }
+            Test.shuffle(content);
+            for(let i=0;i<content.length;i++)
+            {
+                result+=content[i];
+            }
         }
 
         result+='</ul>';
@@ -171,7 +222,10 @@ class Test{
         {
 
             if(last_card)
+            {
                 content+='<button type="button" class="btn btn-primary"  onclick="TestController.result()">Закончить</button>';
+                content+='<button type="button" class="btn btn-primary"  onclick="TestController.rew()">Отзыв</button>';
+            }
             else
                 content+='<button type="button" class="btn btn-primary" onclick="TestController.next_card()">далее</button>';
         }

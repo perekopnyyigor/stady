@@ -15,7 +15,7 @@ class Cours
             content += '<li class="list-group-item">';
             content += date[i].name;
             content += '<a href="#" onclick="CoursController.openChapter('+date[i].id+')"> Описание</a>';
-            content += '<a href="#" onclick="CreateCardController.reload('+date[i].id+')"> Редактировать</a>';
+            content += '<a href="#" onclick="CreateCardController.onload('+date[i].id+')"> Редактировать</a>';
             content += '<a href="#" onclick="CoursController.deleteCours('+date[i].id+')"> Удалить</a><br>';
             content += '</li>';
 

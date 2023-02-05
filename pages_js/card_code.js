@@ -5,28 +5,28 @@ class CardCode
     {
         let content = '';
          content+='<p>Название формулы</p>';
-         content+='<input id="name">';
+         content+='<input id="card_name">';
         content+='<p>Задание</p>';
         content +='<textarea id="task" style="width: 80%; height: 100px"></textarea>';
          content+='<p>Структура формулы</p>';
-         content += "<textarea style=\"width: 80%; height: 100px\" id='redactor' oninput='CardCodeController.onchange()'></textarea>";
+         content += "<textarea style=\"width: 80%; height: 100px\" id='card_content' oninput='CardCodeController.onchange()'></textarea>";
          content +='<input id="topic_id" type="hidden" value="'+id+'">';
          content +='<pre><code id="view" class="language-javascript"></code></pre>';
          content +='<button onclick="CardCodeController.createCard()">Добавить</button>';
         content += '<button onclick="CardCodeController.click()">Выделить</button>';
         content += '<button onclick="CardCodeController.check()">check</button>';
 
-
+/*
         content += '<pre><code id="result" class="language-javascript"></code></pre>';
-        content += '<pre><code id="variant" class="language-javascript"></code></pre>';
-         document.getElementById("card_form").innerHTML=content;
+        content += '<pre><code id="variant" class="language-javascript"></code></pre>';*/
+         document.getElementById("redactor").innerHTML=content;
 
     }
 
     static get_card_data()
     {
-        let name=document.getElementById("name").value;
-        let text=document.getElementById("redactor").value;
+        let name=document.getElementById("card_name").value;
+        let text=document.getElementById("card_content").value;
         let id = document.getElementById("topic_id").value;
         let task=document.getElementById("task").value;
         let hints = document.getElementsByName("hint");
@@ -50,11 +50,11 @@ class CardCode
         CardCode.data =data;
         let content = '';
         content+='<p>Название фрагмента</p>';
-        content+='<input id="name_card" value="'+data.name+'">';
+        content+='<input oninput=\'CreateCardController.update()\' id="card_name" value="'+data.name+'">';
         content+='<p>Задание</p>';
-        content +='<textarea id="task" style="width: 80%; height: 100px">'+data.task+'</textarea>';
+        content +='<textarea oninput=\'CreateCardController.update()\' id="task" style="width: 80%; height: 100px">'+data.task+'</textarea>';
         content+='<p>Фрагмент кода</p>';
-        content += "<textarea style=\"width: 80%; height: 200px\" id='redactor' oninput='CardCodeController.onchange()'>"+data.content_mark+"</textarea>";
+        content += "<textarea style=\"width: 80%; height: 200px\" id='card_content' oninput='CreateCardController.update()'>"+data.content_mark+"</textarea>";
         content +='<input id="card_id" type="hidden" value="'+data.id+'">';
 
         content +='<pre><code id="view" class="language-javascript"></code></pre>';
@@ -64,15 +64,15 @@ class CardCode
         content += '<button onclick="CardCodeController.check()">check</button>';
 
 
-        content += '<pre><code id="result" class="language-javascript"></code></pre>';
-        content += '<div id="variant"></div>';
-        document.getElementById("card_form").innerHTML=content;
-        CardCodeController.onchange();
+        //content += '<pre><code id="result" class="language-javascript"></code></pre>';
+        //content += '<div id="variant"></div>';
+        document.getElementById("redactor").innerHTML=content;
+        CreateCardController.update();
     }
 
     static card_change_data() {
-        let name = document.getElementById("name_card").value;
-        let text_mark = document.getElementById("redactor").value;
+        let name = document.getElementById("card_name").value;
+        let text_mark = document.getElementById("card_content").value;
 
         let hints = document.getElementsByName("hint");
         let hint_string="";

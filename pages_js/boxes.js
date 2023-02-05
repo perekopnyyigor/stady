@@ -21,13 +21,18 @@ class Boxes
 
             content+="<tr>";
             content+="<td>"+'<label><a href="../index.php?action=open_topic&topic_id='+topic+'&cours_id='+cours+'">' +name+'</a></label>'+"</td>";
-            content+="<td>"+date[i].date+"</td>";
-            content+="<td>"+date[i].date_next+"</td>";
+            content+="<td>"+Boxes.date(date[i].date)+"</td>";
+            content+="<td>"+Boxes.date(date[i].date_next)+"</td>";
             let period = Math.pow(2,date[i].period)-1;
             content+="<td>"+period+"</td>";
             content+="</tr>";
         }
         content += "</table>";
         return content;
+    }
+    static date(str_date)
+    {
+        let date = new Date(str_date);
+        return date.toLocaleDateString();
     }
 }

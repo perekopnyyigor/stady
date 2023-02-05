@@ -19,10 +19,12 @@ class CabinetController
     }
     static createCard()
     {
+        CreateCardController.onload();
+        /*
         let chapter = Model.get_chapters();
         alert(chapter);
         let createCard = new CreateCard();
-        createCard.start(chapter);
+        createCard.start(chapter);*/
     }
     static createCours()
     {

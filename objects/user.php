@@ -50,11 +50,14 @@ class User
         {
             $id = $database->select_one("id","user","WHERE name ='".$user->login."'");
             $admin = $database->select_one("admin","user","WHERE name ='".$user->login."'");
+            $rewiev = User::iSrewiev($id);
+
             $result = "Добро пожаловать";
             $_SESSION["id"]=$id;
             echo '<script>
                 localStorage.setItem("id",'.$id.');
                 localStorage.setItem("admin",'.$admin.');
+                localStorage.setItem("rewiev",'.$rewiev.');
                 alert("'.$result.'");
                 location.href = "/index.php?action=cabinet";
             </script>';
@@ -75,6 +78,7 @@ class User
         $this->name=$database->select_one("name","user","WHERE id ='".$id."'");
         $this->password=$database->select_one("password","user","WHERE id ='".$id."'");
         $this->admin=$database->select_one("admin","user","WHERE id ='".$id."'");
+        $this->iSrewiev = User::iSrewiev($id);
     }
 
     public function course()
@@ -155,6 +159,23 @@ class User
         else
         {
             return true;
+        }
+
+    }
+    static function iSrewiev($id)
+    {
+        $database = new Database();
+
+        $database->connect();
+        $id = $database->select_one("id","rewiev","WHERE user ='".$id."'");
+        $result="";
+        if($id==null)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
         }
 
     }

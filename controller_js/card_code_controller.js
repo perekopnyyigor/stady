@@ -35,7 +35,7 @@ class CardCodeController
     static click()
     {
         let select = window.getSelection();
-        let redact = document.getElementById("redactor");
+        let redact = document.getElementById("card_content");
         let startPos = redact .selectionStart;
         let endPos = redact .selectionEnd;
         let content=redact.value;
@@ -51,11 +51,11 @@ class CardCodeController
     }
     static check()
     {
-        let redact = document.getElementById("redactor");
+        let redact = document.getElementById("card_content");
         let content=redact.value;
         CreateCardController.contentArr=content.split('{m}');
 
-        document.getElementById("result").innerHTML=CardCode.res(CreateCardController.contentArr,0);
+        document.getElementById("result").innerHTML= '<pre><code id="result" class="language-javascript">'+CardCode.res(CreateCardController.contentArr,0)+'</code></pre>';
         document.getElementById("variant").innerHTML=CardCode.variant(CreateCardController.contentArr,0,CardCodeController.countHint);
         CardCodeController.countHint=-10;
         hljs.highlightAll();

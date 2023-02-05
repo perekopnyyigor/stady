@@ -134,8 +134,7 @@ class Cours extends View
             {
                 echo '<form method="POST" enctype="multipart/form-data" action="../index.php?action=subscrib">
                 <input type="hidden" name="cours_id" value="'.$cours->id.'">
-                <button class="w-50 btn btn-sm btn-primary m-md-2" type="submit">Подписаться</button>
-                
+                <button class="w-50 btn btn-sm btn-primary m-md-2" type="submit">Подписаться</button>                
                 </form>';
             }
             if($user->iSsubscrib($cours->id))
@@ -146,6 +145,7 @@ class Cours extends View
         else
         {
             echo '<h2 style="font-weight:bold" class="m-lg-3">Описание курса</h2>';
+            echo $this->description($cours);
         }
 
 
@@ -168,4 +168,24 @@ class Cours extends View
         echo "</script>";
 
     }
+    public function description($cours)
+    {
+        $content='';
+        $content.='<div class="card mb-3" style="max-width: 540px;">';
+        $content.='  <div class="row g-0">';
+        $content.='    <div class="col-md-4">';
+        $content.='      <img src="'.$cours->picture.'" class="img-fluid rounded-start" alt="...">';
+        $content.='    </div>';
+        $content.='    <div class="col-md-8">';
+        $content.='      <div class="card-body">';
+        $content.='        <h4 style="font-weight:bold" class="card-title">'.$cours->name.'</h4>';
+        $content.='        <p class="card-text">'.$cours->description.'</p>';
+       // $content.='        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>';
+        $content.='      </div>';
+        $content.='    </div>';
+        $content.='  </div>';
+        $content.='</div>';
+        return $content;
+    }
+
 }

@@ -35,7 +35,7 @@ class CardFormulsController
     static click()
     {
         let select = window.getSelection();
-        let redact = document.getElementById("redactor");
+        let redact = document.getElementById("card_content");
         let startPos = redact .selectionStart;
         let endPos = redact .selectionEnd;
         let content=redact.value;
@@ -51,7 +51,7 @@ class CardFormulsController
     }
     static check()
     {
-        let redact = document.getElementById("redactor");
+        let redact = document.getElementById("card_content");
         let content=redact.value;
         CardFormulsController.contentArr=content.split('{m}');
 

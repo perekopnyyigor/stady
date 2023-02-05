@@ -1,67 +1,212 @@
 class CreateCardController
 {
     static contentArr=[];
-    static openCardForm(id)
+    static cours_id;
+
+    static onload(cours_id)
     {
-        let createCard = new CreateCard();
-        createCard.card_form(id);
-    }
-    static reload(cours_id)
-    {
+        document.getElementById("first").innerHTML=CreateCard.colum();
+        CreateCardController.cours_id = cours_id;
         let data={
             cours_id:cours_id
         };
-
         let res = Model.ajax(JSON.stringify(data),"get_chapters");
-        let createCard = new CreateCard();
-        createCard.start(res);
+
+        document.getElementById("menu").innerHTML=CreateCard.chapterList(res);
+
+        let id = localStorage.getItem("last_details");
+        document.getElementById(id).open=true;
+        CreateCardController.update();
+    }
+    static remember(arg)
+    {
+        let elements= document.getElementsByTagName("details");
+        for (const element of elements) {
+
+            if(Number(element.id) !== Number(arg.id))
+                element.open=false;
+        }
+        localStorage.setItem("last_details", arg.id);
+    }
+    static openCardForm(id)
+    {
+        document.getElementById("redactor").innerHTML=CreateCard.card_form(id);
     }
     static openCardFormContent(id)
     {
         let data = Model.get_card(id);
 
-        let createCard = new CreateCard();
-        createCard.card_form_content(data);
-
+        document.getElementById("redactor").innerHTML=CreateCard.card_form_content(data);
+        CreateCardController.update();
     }
     static createChapter()
     {
-        let data = CreateCard.get_chapter_name();
-        Model.add_chapter(data);
+        let chapter_name = prompt('Введите название');
 
-        CreateCardController.reload(CreateCard.cours_id);
+        if (chapter_name!=null && chapter_name!="" && chapter_name!=" " )
+        {
+            let user_id = localStorage.getItem("id");
+            let data={
+                cours_id:CreateCardController.cours_id,
+                chapter_name:chapter_name
+            };
+            let data_json = JSON.stringify(data);
+            let str = "Глава "+chapter_name+" добавлена";
+            alert(str);
+            Model.ajax(data_json,"add_chapter");
+        }
+        else
+        {
+            alert("Название не должно бать пустым");
+        }
+
+
+        CreateCardController.onload(CreateCardController.cours_id);
     }
+    static deleteChapter(id)
+    {
+        let del = confirm("Вы действительно хотите удалить главу и все темы");
+        if (del)
+        {
+
+            let data={
+                chapter_id:id,
+            };
+
+            let data_json =  JSON.stringify(data);
+            Model.ajax(data_json,"delete_chapter");
+        }
+        CreateCardController.onload(CreateCardController.cours_id);
+    }
+
     static createTopic(chapter_id)
     {
 
-        let data = CreateCard.get_topic_name(chapter_id);
-        Model.add_topic(data);
+        let topic_name = prompt('Введите название темы');
+        // let chapter_id = document.getElementById("chapter_id").value;
+        if (topic_name!=null && topic_name!="" && topic_name!=" " ) {
+            let data = {
+                chapter_id: chapter_id,
+                topic_name: topic_name
+            };
+            let data_json = JSON.stringify(data);
+            let str = "Тема "+topic_name+" добавлена";
+            alert(str);
+            Model.ajax(data_json,"add_topic");
+        }
+        else
+        {
+            alert("Название не должно бать пустым");
+        }
 
 
-        CreateCardController.reload(CreateCard.cours_id);
+        CreateCardController.onload(CreateCardController.cours_id);
     }
 
+    static deleteTopic(id)
+    {
+        let del = confirm("Вы действительно хотите удалить тему и все карты");
+        if (del)
+        {
+
+            let data={
+                topic_id:id,
+            };
+
+            let data_json =  JSON.stringify(data);
+            Model.ajax(data_json,"delete_topic");
+        }
+        CreateCardController.onload(CreateCardController.cours_id);
+    }
     static createCard()
     {
-        let data = CreateCard.get_card_data();
-        Model.add_card(data);
+        let name=document.getElementById("card_name").value;
+        let text=document.getElementById("card_content").value;
+        let id = document.getElementById("topic_id").value;
+        let task=document.getElementById("task").value;
+        let data={
+            topic_id:id,
+            card_name:name,
+            card_mark:text,
+            type:1,
+            task:task
+        };
+        let data_json =  JSON.stringify(data);
+        Model.ajax(data_json,"add_card")
+        CreateCardController.onload(CreateCardController.cours_id);
 
-        CreateCardController.reload(CreateCard.cours_id);
     }
     static redactCard()
     {
-        let data = CreateCard.card_change_data();
-        Model.redact_card(data);
+        let name=document.getElementById("card_name").value;
+        let text_mark=document.getElementById("card_content").value;
+        let task=document.getElementById("task").value;
 
-        CreateCardController.reload(CreateCard.cours_id);
+        let id = document.getElementById("card_id").value;
+        let data={
+            id:id,
+            card_name:name,
+            card_mark:text_mark,
+            task:task
+
+        };
+
+        let data_json =  JSON.stringify(data);
+        Model.ajax(data_json,"redact_card")
+
+        CreateCardController.onload(CreateCardController.cours_id);
+    }
+    static deleteCard(id)
+    {
+        let del = confirm("Вы действительно хотите удалить карту");
+        if (del)
+        {
+
+            let data={
+                card_id:id,
+            };
+
+            let data_json =  JSON.stringify(data);
+            Model.ajax(data_json,"delete_card");
+        }
+        CreateCardController.onload(CreateCardController.cours_id);
     }
     static addImg()
     {
-        let img = CreateCard.getImgData();
-        let card_id = CreateCard.getIdCard();
+        let img = document.getElementsByName("file")[0].files[0];
+        let card_id = document.getElementById("card_id").value;
         Model.addImg(card_id,img);
-
+        CreateCardController.onload(CreateCardController.cours_id);
+        CreateCardController.openCardFormContent(card_id);
     }
+    static update()
+    {
+        let task_content = document.getElementById("task").value;
+        let name = document.getElementById("card_name").value;
+        let card_content = document.getElementById("card_content").value;
+        card_content=card_content.split('{m}').join(" ");
+        document.getElementById("task_brows").innerHTML=CreateCard.result(name,task_content,card_content);
+
+        let formula = document.getElementsByTagName("formula");
+        for (let i = 0; i < formula.length; i++)
+        {
+            let text = formula[i].innerHTML;
+            //text = text.replace("slash","\\\\");
+            katex.render(text, formula[i]);
+        }
+        hljs.highlightAll();
+    }
+
+//--------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
     static cardFormula(id)
     {
 
@@ -94,50 +239,8 @@ class CreateCardController
         document.getElementById("result").innerHTML=CreateCard.res(CreateCardController.contentArr,0);
         document.getElementById("variant").innerHTML=CreateCard.variant(CreateCardController.contentArr,0);
     }
-    static deleteCard(id)
-    {
-        let del = confirm("Вы действительно хотите удалить карту");
-        if (del)
-        {
 
-            let data={
-                card_id:id,
-            };
 
-            let data_json =  JSON.stringify(data);
-            Model.ajax(data_json,"delete_card");
-        }
-        CreateCardController.reload(CreateCard.cours_id);
-    }
-    static deleteTopic(id)
-    {
-        let del = confirm("Вы действительно хотите удалить тему и все карты");
-        if (del)
-        {
 
-            let data={
-                topic_id:id,
-            };
-
-            let data_json =  JSON.stringify(data);
-            Model.ajax(data_json,"delete_topic");
-        }
-        CreateCardController.reload(CreateCard.cours_id);
-    }
-    static deleteChapter(id)
-    {
-        let del = confirm("Вы действительно хотите удалить главу и все темы");
-        if (del)
-        {
-
-            let data={
-                chapter_id:id,
-            };
-
-            let data_json =  JSON.stringify(data);
-            Model.ajax(data_json,"delete_chapter");
-        }
-        CreateCardController.reload(CreateCard.cours_id);
-    }
 
 }
