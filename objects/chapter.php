@@ -62,22 +62,23 @@ class Chapter
         echo '<script>alert("'.$result.'")</script>';
 
     }
-    function __construct($id)
+    function __construct($id,$content_topic)
     {
-        $database = new Database();
+
         $this->id=$id;
-        $this->name=$database->select_one("name","chapter","WHERE id ='".$id."'");
-        $this->user=$database->select_one("user","chapter","WHERE id ='".$id."'");
-        $this->topics=$this->find_topics();
+        $this->name=database::select_one_stat("name","chapter","WHERE id ='".$id."'");
+        $this->user=database::select_one_stat("user","chapter","WHERE id ='".$id."'");
+        $this->topics=$this->find_topics($content_topic);
     }
-    public function find_topics()
+    public function find_topics($content_topic)
     {
-        $database = new Database();
-        $topics_id = $database->select("id", "topic", "Where chapter=".$this->id);
+        //$database = new Database();
+        $topics_id = database::select_stat("id", "topic", "Where chapter=".$this->id);
         $topics=[];
         for ($i=0;$i<count($topics_id);$i++)
         {
-            $topics[$i] = new Topic($topics_id[$i]);
+            $topics[$i] = new Topic($topics_id[$i],$content_topic);
+
         }
 
         return $topics;
@@ -85,8 +86,8 @@ class Chapter
     public function delete()
     {
 
-        $database = new Database();
-        $topics_id = $database->select("id", "topic", "Where chapter=".$this->id);
+
+        $topics_id = database::select_stat("id", "topic", "Where chapter=".$this->id);
 
         for ($i=0;$i<count($topics_id);$i++)
         {

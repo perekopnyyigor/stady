@@ -3,23 +3,38 @@ class Test{
     static hint = [];
     static type;
     static task;
+    static language;
     static card(data,last_card)
     {
         Test.contentArr = data.content_mark.split('{m}');
         Test.type = data.type;
+        Test.language = data.language;
+
         if(data.hint!=null)
             Test.hint = data.hint.split('{p}');
 
         let content = '';
 
+        content+='<div class="alert alert-primary m-1" role="alert">\n' +
+            '            Вместо троеточий вставьте слова или символы из предложенных ниже вариантов  \n' +
+            '            </div>';
+
+        content+='<div class="m-1">';
+        content+='Правильных ответов:<div id="error">  '+Test.true_answers()+'</div>';
+        content+='Прогресс: <div id="progress">  '+Test.progress()+'</div>';
+        content+='</div>';
+
+        content+='<h3 class="m-1" style="font-weight:bold">'+ data.name+'</h3>';
 
 
-        content+='<h2 class="m-lg-3" style="font-weight:bold">'+ data.name+'</h2>';
+
+
+
 
         if(data.picture!=null)
         {
             for (let i=0;i<data.picture.length;i++)
-                content +='<img width="200px" src="'+data.picture[i]+'">';
+                content +='<img class="p-4" width="200px" src="'+data.picture[i]+'">';
             //content +='<img width="200px" src="'+data.picture+'">';
 
         }
@@ -27,18 +42,15 @@ class Test{
         if(data.task!=null)
         {
             Test.task = data.task;//
-            content+='<div id="task">Задание: '+ data.task+'</div>';
+            content+='<div class="p-4" id="task">Задание: '+ data.task+'</div>';
         }
 
 
         content+='<div class="card">';
         content+='<div id = "result" class="card-body">'+Test.res(0)+'</div>';
         content+='<div id = "hint" class="card-footer text-muted">Подсказка:'+Test.hint[0]+'</div>';
-        content+='</div>';
-        content+='Правильных ответов: <span id="error">'+Test.true_answers()+'</span>';
-        content+='Прогресс: <span id="progress">'+Test.progress()+'</span>';
-        content+='</div></div>';
-        content+='<h6>Варианты</h6>';
+
+
         content+='<div id = "variant">'+Test.variant(0)+'</div>';
 
         content+='<div id="buttons"></div>';
@@ -73,7 +85,7 @@ class Test{
         if(Test.type==2)
             result +='<formula>';
         if(Test.type==3)
-            result+='<pre style="border:0; "><code  class="language-javascript">';
+            result+='<pre style="border:0; "><code  class="'+Test.language+'">';
 
         for(let i=0;i<count;i++)
         {
@@ -89,7 +101,16 @@ class Test{
             if(i%2==0)
                 result +=Test.contentArr[i];
             else
-                result +="...";
+            {
+
+                if (i==count || (i==1 && count == 0))
+                    result +="[.....]";
+                else
+                    result +="......";
+            }
+
+
+
         }
 
         if(Test.type==2)
@@ -105,8 +126,8 @@ class Test{
     static variant(count)
     {
         let result = "";
-        result += '<ul class="list-group">';
-        result += '<li class="list-group-item active" aria-current="true">Варианты</li>';
+
+        result +='<h4 class="m-1" style="font-weight:bold">Варианты</h4>';
         let random = [];
         if(Test.type==3)
         {
@@ -128,9 +149,9 @@ class Test{
                 let text='';
                 if(i%2==1)
                 {
-                    text +='<a href="#" onclick="TestController.answer(\''+Test.contentArr[i]+'\')" class="list-group-item list-group-item-action">';
-                    text += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="language-javascript">'+Test.contentArr[i]+'</code></pre>';
-                    text += '</a>';
+                    text +='<button class="btn btn-primary  m-1" onclick="TestController.answer(\''+Test.contentArr[i]+'\')" >';
+                    text += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="'+Test.language+'">'+Test.contentArr[i]+'</code></pre>';
+                    text += '</button>';
                 }
                 content[j]=text;
                 j++;
@@ -162,9 +183,9 @@ class Test{
                 let text='';
                 if(i%2==1)
                 {
-                    text +='<a href="#" class="list-group-item list-group-item-action" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
+                    text +='<button class="btn btn-primary  m-1" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
                     text +='<formula >'+Test.contentArr[i]+'</formula>';
-                    text += '</a>';
+                    text += '</button>';
                 }
                 content[j]=text;
                 j++;
@@ -197,9 +218,9 @@ class Test{
                 let text='';
                 if(i%2==1)
                 {
-                    text +='<a href="#" class="list-group-item list-group-item-action" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
+                    text +='<button class="btn btn-primary  m-1"  onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
                     text +=Test.contentArr[i];
-                    text += '</a>';
+                    text += '</button>';
                 }
                 content[j]=text;
                 j++;
@@ -223,11 +244,11 @@ class Test{
 
             if(last_card)
             {
-                content+='<button type="button" class="btn btn-primary"  onclick="TestController.result()">Закончить</button>';
-                content+='<button type="button" class="btn btn-primary"  onclick="TestController.rew()">Отзыв</button>';
+                content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.result()">Закончить</button>';
+                content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.rew()">Отзыв</button>';
             }
             else
-                content+='<button type="button" class="btn btn-primary" onclick="TestController.next_card()">далее</button>';
+                content+='<button type="button" class="btn btn-primary " onclick="TestController.next_card()">далее</button>';
         }
         return content;
     }

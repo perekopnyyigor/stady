@@ -5,12 +5,46 @@ class MainPage extends View
 {
     function main($courses,$user=false)
     {
-        $this->includ();
+        $this->including();
 
         $this->navbar($user);
         Carosel::main();
         $this->list_chapters($courses);
     }
+    function including()
+    {
+
+        echo '
+            <!DOCTYPE HTML>
+        <html lang="">
+        <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+      
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
+       
+           
+     
+    
+
+        <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                
+            
+                <title>studycard</title>
+            
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+               <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+                <link rel="stylesheet" href="../css/thumbnail-gallery.css">-->
+                
+                <link rel="stylesheet" href="../css/list.css">
+                <link rel="stylesheet" href="../css/style.css">
+       </head>
+        ';
+    }
+
     function list_chapters($courses)
     {
         echo '<h2 class="px-4 mt-5" style="font-weight:bold" >Cписок курсов</h2>';
@@ -18,11 +52,11 @@ class MainPage extends View
         foreach ($courses as $cours)
         {
 
-            echo '<div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 mt-4 ">';
+            echo '<div class="mx-auto  col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-11 mt-4 ">';
 
             echo '<a class="link-dark" style="text-decoration:none;" href="../index.php?action=open_cours&cours_id='.$cours->id.'">';
             echo '<div class="shadow card   p-4 border " >';
-            echo '<img style="height:200px; width:250px" class="img-thumbnail" src="'.$cours->picture.'" class="card-img-top" alt="...">';
+            echo '<img style="height:200px; width:250px" class="img-thumbnail mx-auto " src="'.$cours->picture.'" class="card-img-top" alt="...">';
             echo '<h4 style="font-weight:bold" class="card-title">'.$cours->name.'</h4>';
             echo '<p style="font-weight:bold" class="card-text">'.$cours->description.'</p>';
             //echo '<a class="btn btn-primary" href="../index.php?action=open_cours&cours_id='.$cours->id.'">Пререйти</a>';

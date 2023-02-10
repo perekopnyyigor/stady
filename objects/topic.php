@@ -51,23 +51,24 @@ class Topic
         echo '<script>alert("'.$result.'")</script>';
 
     }
-    function __construct($id,$on_content=false)
+    function __construct($id,$cards=true)
     {
-        $database = new Database();
+
         $this->id=$id;
-        $this->name=$database->select_one("name","topic","WHERE id ='".$id."'");
-        $this->chapter=$database->select_one("chapter","topic","WHERE id ='".$id."'");
-        $this->cours=$database->select_one("cours","chapter","WHERE id ='".$this->chapter."'");
-        $this->cards=$this->find_cards($on_content);
+        $this->name=database::select_one_stat("name","topic","WHERE id ='".$id."'");
+        $this->chapter=database::select_one_stat("chapter","topic","WHERE id ='".$id."'");
+        $this->cours=database::select_one_stat("cours","chapter","WHERE id ='".$this->chapter."'");
+        if($cards)
+            $this->cards=$this->find_cards();
     }
-    public function find_cards($on_content=false)
+    public function find_cards()
     {
-        $database = new Database();
-        $topics_id = $database->select("id", "card", "Where topic=".$this->id);
+
+        $topics_id = database::select_stat("id", "card", "Where topic=".$this->id);
         $topics=[];
         for ($i=0;$i<count($topics_id);$i++)
         {
-            $topics[$i] = new Card($topics_id[$i],$on_content);
+            $topics[$i] = new Card($topics_id[$i],true);
         }
 
         return $topics;
@@ -75,8 +76,9 @@ class Topic
     public function delete()
     {
 
-        $database = new Database();
-        $cards_id = $database->select("id", "card", "Where topic=".$this->id);
+
+
+        $cards_id = database::select_stat("id", "card", "Where topic=".$this->id);
 
         for ($i=0;$i<count($cards_id);$i++)
         {

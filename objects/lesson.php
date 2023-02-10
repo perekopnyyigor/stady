@@ -13,10 +13,8 @@ class Lesson
     static function add_try($data_js)
     {
         $data = json_decode($data_js);
-        $database = new Database();
 
-        $database->connect();
-        $id = $database->select_one("id","lesson","WHERE topic ='".$data->topic_id."' AND user ='".$data->user_id."'");
+        $id = database::select_one_stat("id","lesson","WHERE topic ='".$data->topic_id."' AND user ='".$data->user_id."'");
 
         $database = new Database();
         $database->connect();
@@ -28,11 +26,10 @@ class Lesson
             die("failed: " . $database->conn->error);
         }
 
-        $database = new Database();
-        $database->connect();
-        $date = $database->select_one("date","lesson","WHERE id ='".$id."'");
-        $next_date = $database->select_one("date_next","lesson","WHERE id ='".$id."'");
-        $period = $database->select_one("period","lesson","WHERE id ='".$id."'");
+
+        $date = database::select_one_stat("date","lesson","WHERE id ='".$id."'");
+        $next_date = database::select_one_stat("date_next","lesson","WHERE id ='".$id."'");
+        $period = database::select_one_stat("period","lesson","WHERE id ='".$id."'");
 
         $now = date('Y-m-d');
 
@@ -81,7 +78,7 @@ class Lesson
                 }
                 else
                 {
-                    echo "Тест пройден средни, период повторения остался";
+                    echo "Тест пройден среднe, период повторения остался";
                 }
                 $days = pow(2,$period)-1;
                 $now = date('Y-m-d');
@@ -114,15 +111,15 @@ class Lesson
     }
     public function __construct($id)
     {
-        $database = new Database();
+
         $this->id = $id;
-        $this->topic = $database->select_one("topic", "lesson", "Where id=".$id);
-        $this->user = $database->select_one("user", "lesson", "Where id=".$id);
-        $this->date_next = $database->select_one("date_next", "lesson", "Where id=".$id);
-        $this->date = $database->select_one("date", "lesson", "Where id=".$id);
-        $this->period = $database->select_one("period", "lesson", "Where id=".$id);
-        $this->topic_name = $database->select_one("name", "topic", "Where id=".$this->topic);
-        $this->chapter = $database->select_one("chapter", "topic", "Where id=".$this->topic);
-        $this->cours = $database->select_one("cours", "chapter", "Where id=".$this->chapter);
+        $this->topic = database::select_one_stat("topic", "lesson", "Where id=".$id);
+        $this->user = database::select_one_stat("user", "lesson", "Where id=".$id);
+        $this->date_next = database::select_one_stat("date_next", "lesson", "Where id=".$id);
+        $this->date = database::select_one_stat("date", "lesson", "Where id=".$id);
+        $this->period = database::select_one_stat("period", "lesson", "Where id=".$id);
+        $this->topic_name = database::select_one_stat("name", "topic", "Where id=".$this->topic);
+        $this->chapter = database::select_one_stat("chapter", "topic", "Where id=".$this->topic);
+        $this->cours = database::select_one_stat("cours", "chapter", "Where id=".$this->chapter);
     }
 }

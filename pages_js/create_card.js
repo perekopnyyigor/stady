@@ -1,11 +1,13 @@
 class CreateCard
 {
     static cours_id;
+    static type;
     static colum()
     {
+
         let content = '';
         content+='<div id="menu" class="col-2">Меню</div>';
-        content+='<div class="col-2">Инструменты</div>';
+        content+='<div id="instrument" class="col-2">Инструменты</div>';
 
         content+='<div id="redactor" class="col-4">Редактор</div>';
 
@@ -91,13 +93,16 @@ class CreateCard
         for (let i = 0; i< data.cards.length; i++)
         {
             let card = data.cards[i];
-            content +='<div class="my_item-2"><span >'+card.name+'</span>' ;
+            content +='<div class="my_item-2"><span>'+card.name+'</span>' ;
+
             if (card.type==1)
                 content +='<a href="#" id="redact" onclick="CreateCardController.openCardFormContent('+card.id+')" >Редактировать</a>';
             if (card.type==2)
                 content +='<a href="#" id="redact" onclick="CardFormulsController.openCardFormContent('+card.id+')" >Редактировать</a>';
             if (card.type==3)
                 content +='<a href="#" id="redact" onclick="CardCodeController.openCardFormContent('+card.id+')" >Редактировать</a>';
+
+
 
             content +='<a href="#" onclick="CreateCardController.deleteCard('+card.id+')">Удалить</a></div>';
         }
@@ -127,9 +132,8 @@ class CreateCard
         content += '<button onclick="CreateCardController.check()">check</button>';
         content +='<input type="file" name="file" onchange="CreateCardController.addImg()">';
 
-        content += '<div id = "result"></div>';
-        content += '<div id = "variant"></div>';
         content +='</div>';
+
         return content;
     }
 
@@ -140,7 +144,7 @@ class CreateCard
         content +='<div>';
         content+='<p>Название</p>';
         content +='<input oninput="CreateCardController.update()" id="card_name" style="width: 80%" value="'+card.name+'" >';
-
+        CreateCard.type = card.type;
         if(card.picture!=null)
         {
             for (let i=0;i<card.picture.length;i++)
@@ -161,6 +165,7 @@ class CreateCard
 
 
         content +='</div>';
+
         return content;
     }
 

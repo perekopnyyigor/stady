@@ -11,7 +11,7 @@ class CardCode
          content+='<p>Структура формулы</p>';
          content += "<textarea style=\"width: 80%; height: 100px\" id='card_content' oninput='CardCodeController.onchange()'></textarea>";
          content +='<input id="topic_id" type="hidden" value="'+id+'">';
-         content +='<pre><code id="view" class="language-javascript"></code></pre>';
+         //content +='<pre><code id="view" class="language-javascript"></code></pre>';
          content +='<button onclick="CardCodeController.createCard()">Добавить</button>';
         content += '<button onclick="CardCodeController.click()">Выделить</button>';
         content += '<button onclick="CardCodeController.check()">check</button>';
@@ -50,14 +50,16 @@ class CardCode
         CardCode.data =data;
         let content = '';
         content+='<p>Название фрагмента</p>';
-        content+='<input oninput=\'CreateCardController.update()\' id="card_name" value="'+data.name+'">';
+        content+='<input oninput=\'CardCodeController.update()\' id="card_name" value="'+data.name+'">';
         content+='<p>Задание</p>';
-        content +='<textarea oninput=\'CreateCardController.update()\' id="task" style="width: 80%; height: 100px">'+data.task+'</textarea>';
+        content +='<textarea oninput=\'CardCodeController.update()\' id="task" style="width: 80%; height: 100px">'+data.task+'</textarea>';
+        content+='<p>Название фрагмента</p>';
+        content+='<input id="card_language" value="'+data.language+'">';
         content+='<p>Фрагмент кода</p>';
-        content += "<textarea style=\"width: 80%; height: 200px\" id='card_content' oninput='CreateCardController.update()'>"+data.content_mark+"</textarea>";
+        content += "<textarea style=\"width: 80%; height: 200px\" id='card_content' oninput='CardCodeController.update()'>"+data.content_mark+"</textarea>";
         content +='<input id="card_id" type="hidden" value="'+data.id+'">';
 
-        content +='<pre><code id="view" class="language-javascript"></code></pre>';
+        //content +='<pre><code id="view" class="language-javascript"></code></pre>';
         content +='<button onclick="CardCodeController.redactCard()">Изменить</button>';
 
         content += '<button onclick="CardCodeController.click()">Выделить</button>';
@@ -67,7 +69,7 @@ class CardCode
         //content += '<pre><code id="result" class="language-javascript"></code></pre>';
         //content += '<div id="variant"></div>';
         document.getElementById("redactor").innerHTML=content;
-        CreateCardController.update();
+        CardCodeController.update();
     }
 
     static card_change_data() {
@@ -75,6 +77,7 @@ class CardCode
         let text_mark = document.getElementById("card_content").value;
 
         let hints = document.getElementsByName("hint");
+        let language = document.getElementById("card_language").value;
         let hint_string="";
         for (let i =0;i<hints.length;i++)
             hint_string+=hints[i].value+"{p}";
@@ -84,10 +87,12 @@ class CardCode
             id: id,
             card_name: name,
             hint: hint_string,
+            language: language,
             card_mark: text_mark,
             task:task
 
         };
+
         return  JSON.stringify(data);
     }
     static res(contentArr,count)
@@ -120,13 +125,13 @@ class CardCode
             {
                 if(j==hint)
                 {
-                    result +='<pre><code id="result" class="language-javascript">'+contentArr[i]+'</code></pre>';
+                    result +='<pre><code id="result" class="'+CardCode.data.language+'">'+contentArr[i]+'</code></pre>';
                     result +='<div>Подсказка: <input name="hint" value="..."></div>';
                     hint=-10;
                 }
                 else
                 {
-                    result +='<pre><code id="result" class="language-javascript">'+contentArr[i]+'</code></pre>';
+                    result +='<pre><code id="result" class="'+CardCode.data.language+'">'+contentArr[i]+'</code></pre>';
                     result +='<div>Подсказка: <input name="hint" value="'+hintArr[j]+'"></div>';
                     j++;
                 }

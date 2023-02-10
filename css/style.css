@@ -18,7 +18,7 @@
 .my_item
 {
     box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
-    width: 300px;
+    width: 250px;
 
     margin: 5px;
     padding: 5px;
@@ -27,23 +27,23 @@
 .my_item-1
 {
     box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
-    width: 300px;
+    width: 250px;
 
     margin: 5px;
     padding: 5px;
     border-radius: 2px;
-    margin-left: 30px;
+    margin-left: 20px;
 
 }
 .my_item-2
 {
     box-shadow: 0 4px 8px 0 rgba(0,0, 0, 0.2);
-    width: 300px;
+    width: 250px;
 
     margin: 5px;
     padding: 5px;
     border-radius: 2px;
-    margin-left: 60px;
+    margin-left: 40px;
 
 }
 .my_item,.my_item-1,.my_item-2:hover

@@ -4,7 +4,7 @@ class Carosel
     static function main()
     {
         echo '
-        <div class="row">
+       <div class="row">
         <div class="col-xl-2 col-lg-2 col-md-1 "></div>
         <div class="col-xl-8 col-lg-8 col-md-10 ">
         <h2 class="px-4 mt-5" style="font-weight:bold">О нас</h2>
@@ -13,25 +13,25 @@ class Carosel
         
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">       
         <div class="carousel-inner"> 
-            <div class="carousel-item active">
-               <img src="../image/on-a-table-with-copy-space.jpg" data-bs-interval="5000" class="d-block w-100" alt="...">
-                <div class="carousel-caption position-absolute top-50 end-50">
-                <h4  style="font-weight: bold; color: white;">First slide label</h4>
-                <p style="font-weight: bold; color: white;">Some representative placeholder content for the first slide.</p>
+            <div class="carousel-item active ">
+               <img src="../image/on-a-table-with-copy-space.webp" data-bs-interval="5000" class="d-block w-100" alt="...">
+                <div class="carousel-caption position-absolute start-0  ">
+                <h4  style="font-weight: bold; color: white;">Учитесь легко</h4>
+                <p style="font-weight: bold; color: white;">Собирайте определения и решения задач в тестах</p>
             </div></div>
             
             <div class="carousel-item" data-bs-interval="5000">
-              <img src="../image/books-and-copy-space.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption position-absolute top-50 start-50">
-                <h4 style="font-weight: bold; color: black;">Second slide label</h4>
-                <p style="font-weight: bold; color: black;">Some representative placeholder content for the second slide.</p>
+              <img src="../image/books-and-copy-space.webp" class="d-block w-100" alt="...">
+                <div class="carousel-caption position-absolute end-0">
+                <h4 style="font-weight: bold; color: black;">Учитесь быстро</h4>
+                <p style="font-weight: bold; color: black;">Нарабатывайте практику в любое удобное время.</p>
             </div></div>
             
             <div class="carousel-item" data-bs-interval="5000">
-               <img src="../image/different-books.jpg" class="d-block w-100" alt="...">
-              <div class="carousel-caption position-absolute top-50 end-50">
-                <h4 style="font-weight: bold; color: black;">Third slide label</h4>
-                <p style="font-weight: bold; color: black;">Some representative placeholder content for the third slide.</p>
+               <img src="../image/different-books.webp" class="d-block w-100" alt="...">
+              <div class="carousel-caption position-absolute start-0">
+                <h4 style="font-weight: bold; color: black;">Главное повторение</h4>
+                <p style="font-weight: bold; color: black;">Мы составим расписание для повторения и закрепления</p>
             </div></div></div>
             
              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
@@ -45,7 +45,7 @@ class Carosel
   
           </div>
           
-        
+         
         ';
     }
 }

@@ -18,22 +18,25 @@ class Cabinet
 
         content += '<div class="list-group d-none d-md-block">';
         content += '<a href="#" class="list-group-item list-group-item-action active">';
-        content += '<h5 style="font-weight:bold" className="m-lg-3 p-0">Выберите пункт</h5></a>';
+        content += '<h5 style="font-weight:bold" >Выберите пункт</h5></a>';
         let i=1;
         if(localStorage.getItem("admin")==1)
             i=0;
         for ( i; i < this.menu_arr.length; i++)
             content += this.menu_punkt(this.menu_arr[i]);
         content += '</div>';
-
+//---------------------------------------------------------------------------------
         content += '<div class="dropdown d-block d-md-none">';
         content += '    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
         content += '        Выберите пункт';
         content += '    </button>';
+        i=1;
+        if(localStorage.getItem("admin")==1)
+            i=0;
         content += '    <div class="dropdown-menu">';
-                for (let i = 0; i < this.menu_arr.length; i++)
+                for ( i; i < this.menu_arr.length; i++)
                 content += this.menu_punkt(this.menu_arr[i]);
-        content += '</div>';
+        content += '</div></div>';
 
         document.getElementById("menu").innerHTML=content;
     }

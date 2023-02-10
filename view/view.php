@@ -22,15 +22,16 @@ abstract class View
           <script src="../pages_js/boxes.js"></script>
           <script src="../pages_js/chapter.js"></script>
           <script src="../pages_js/calendar.js"></script>
+          <script src="../pages_js/instrument.js"></script>
            <script src="../pages_js/card_formula.js"></script>
            <script src="../controller_js/card_formuls_controller.js"></script>
           <script src="../controller_js/calendar_controller.js"></script>
           <script src="../controller_js/cours_controller.js"></script>
           <script src="../controller_js/chapter_controller.js"></script>
+          <script src="../controller_js/instrument_controller.js"></script>
         <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../Katex/katex.min.css">
-    <script src="../Katex/katex.min.js"></script>
-    
+    <script src="../Katex/katex.min.js"></script>   
     <script src="../pages_js/card_code.js"></script>
            <script src="../controller_js/card_code_controller.js"></script>
            
@@ -41,12 +42,12 @@ abstract class View
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
             
-                <title>Freebie: 4 Bootstrap Gallery Templates</title>
+                <title>studycard</title>
             
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
                 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
-                <link rel="stylesheet" href="../css/thumbnail-gallery.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+                  <!--  <link rel="stylesheet" href="../css/thumbnail-gallery.css">-->
                 
                 <link rel="stylesheet" href="../css/list.css">
                 <link rel="stylesheet" href="../css/style.css">

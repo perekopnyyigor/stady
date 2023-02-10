@@ -37,6 +37,7 @@ class CabinetController
         };
         let data_js = JSON.stringify(lesson);
         let data = Model.get_lessons(data_js);
+
         document.getElementById("name").innerHTML="Обучение";
         Boxes.onload(data);
     }

@@ -5,8 +5,10 @@ class CreateCardController
 
     static onload(cours_id)
     {
+
         document.getElementById("first").innerHTML=CreateCard.colum();
         CreateCardController.cours_id = cours_id;
+
         let data={
             cours_id:cours_id
         };
@@ -16,6 +18,7 @@ class CreateCardController
 
         let id = localStorage.getItem("last_details");
         document.getElementById(id).open=true;
+        InstrumentController.onload();
         CreateCardController.update();
     }
     static remember(arg)
@@ -31,13 +34,17 @@ class CreateCardController
     static openCardForm(id)
     {
         document.getElementById("redactor").innerHTML=CreateCard.card_form(id);
+        InstrumentController.onload();
     }
     static openCardFormContent(id)
     {
         let data = Model.get_card(id);
 
         document.getElementById("redactor").innerHTML=CreateCard.card_form_content(data);
-        CreateCardController.update();
+        CreateCardController.check();
+        InstrumentController.onload();
+
+
     }
     static createChapter()
     {
@@ -155,6 +162,7 @@ class CreateCardController
         Model.ajax(data_json,"redact_card")
 
         CreateCardController.onload(CreateCardController.cours_id);
+
     }
     static deleteCard(id)
     {
@@ -185,7 +193,17 @@ class CreateCardController
         let name = document.getElementById("card_name").value;
         let card_content = document.getElementById("card_content").value;
         card_content=card_content.split('{m}').join(" ");
+
+        document.getElementById("result").innerHTML="";
+        document.getElementById("result").innerHTML=CreateCard.res(CreateCardController.contentArr,0);
+
+        document.getElementById("variant").innerHTML="";
+        document.getElementById("variant").innerHTML=CreateCard.variant(CreateCardController.contentArr,0);
+
+        document.getElementById("task_brows").innerHTML="";
         document.getElementById("task_brows").innerHTML=CreateCard.result(name,task_content,card_content);
+
+
 
         let formula = document.getElementsByTagName("formula");
         for (let i = 0; i < formula.length; i++)
@@ -211,11 +229,13 @@ class CreateCardController
     {
 
         CardFormula.onload(id);
+        InstrumentController.onload();
     }
     static cardCode(id)
     {
 
         CardCode.onload(id);
+        InstrumentController.onload();
     }
     static click()
     {
@@ -238,6 +258,9 @@ class CreateCardController
 
         document.getElementById("result").innerHTML=CreateCard.res(CreateCardController.contentArr,0);
         document.getElementById("variant").innerHTML=CreateCard.variant(CreateCardController.contentArr,0);
+        CreateCardController.update();
+
+
     }
 
 

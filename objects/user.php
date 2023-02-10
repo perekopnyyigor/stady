@@ -17,12 +17,23 @@ class User
 
 
         if ($user->password1 != $user->password2)
+        {
             $result = "Пароли не совпадают";
+            echo '<script>alert("'.$result.'");';
+            echo 'location.href = "../index.php?action=reg";</script>';
+        }
+
         else if($user->login==null || $user->password1==null || $user->password2==null)
+        {
             $result = "Не все поля заполнены";
+            echo '<script>alert("'.$result.'");';
+            echo 'location.href = "../index.php?action=reg";</script>';
+        }
+
         else if ($database->select("id","user","WHERE name ='".$user->login."'")!=null)
         {
             $result = "Пользователь с таким именем уже зарегистрирован";
+
         }
         else
         {
@@ -34,22 +45,35 @@ class User
             {
                 die("failed: " . $database->conn->error);
             }
-            $result = "Пользователь зарегистрирован";
+            $result = "Добро пожаловать";
+
+            $id = database::select_one_stat("id","user","WHERE name ='".$user->login."'");
+            $admin = database::select_one_stat("admin","user","WHERE name ='".$user->login."'");
+            $rewiev = User::iSrewiev($id);
+            $_SESSION["id"]=$id;
+            echo '<script>
+                localStorage.setItem("id",'.$id.');
+                localStorage.setItem("admin",'.$admin.');
+                localStorage.setItem("rewiev",'.$rewiev.');
+                alert("'.$result.'");
+                location.href = "/index.php";
+            </script>';
+
         }
-        echo '<script>alert("'.$result.'")</script>';
+       ;
         return $result;
     }
     static function enter($user)
     {
-        $database = new Database();
 
 
-        $password = $database->select_one("password","user","WHERE name ='".$user->login."'");
+
+        $password = database::select_one_stat("password","user","WHERE name ='".$user->login."'");
 
         if(md5($user->password)==$password)
         {
-            $id = $database->select_one("id","user","WHERE name ='".$user->login."'");
-            $admin = $database->select_one("admin","user","WHERE name ='".$user->login."'");
+            $id = database::select_one_stat("id","user","WHERE name ='".$user->login."'");
+            $admin = database::select_one_stat("admin","user","WHERE name ='".$user->login."'");
             $rewiev = User::iSrewiev($id);
 
             $result = "Добро пожаловать";
@@ -59,7 +83,7 @@ class User
                 localStorage.setItem("admin",'.$admin.');
                 localStorage.setItem("rewiev",'.$rewiev.');
                 alert("'.$result.'");
-                location.href = "/index.php?action=cabinet";
+                location.href = "/index.php";
             </script>';
             //header("Location:../index.php?action=cabinet");
         }
@@ -73,18 +97,22 @@ class User
 
     function __construct($id)
     {
-        $database = new Database();
+        /*$database = new Database();
         $this->id=$id;
         $this->name=$database->select_one("name","user","WHERE id ='".$id."'");
         $this->password=$database->select_one("password","user","WHERE id ='".$id."'");
-        $this->admin=$database->select_one("admin","user","WHERE id ='".$id."'");
+        $this->admin=$database->select_one("admin","user","WHERE id ='".$id."'");*/
+        $this->id=$id;
+        $this->name=database::select_one_stat("name","user","WHERE id ='".$id."'");
+        $this->password=database::select_one_stat("password","user","WHERE id ='".$id."'");
+        $this->admin=database::select_one_stat("admin","user","WHERE id ='".$id."'");
         $this->iSrewiev = User::iSrewiev($id);
     }
 
     public function course()
     {
-        $database = new Database();
-        $course_id = $database->select("id", "cours", "Where user=".$this->id);
+
+        $course_id = database::select_stat("id", "cours", "Where user=".$this->id);
         $cousers=[];
 
         for ($i=0;$i<count($course_id);$i++)
@@ -96,8 +124,8 @@ class User
 
     public function find_courses()
     {
-        $database = new Database();
-        $chapters_id = $database->select("cours", "subscribtion", "Where user=".$this->id);
+
+        $chapters_id = database::select_stat("cours", "subscribtion", "Where user=".$this->id);
         $chapters=[];
 
         for ($i=0;$i<count($chapters_id);$i++)
@@ -108,8 +136,8 @@ class User
     }
     public function find_lessons()
     {
-        $database = new Database();
-        $lesson_id = $database->select("id", "lesson", "Where user=".$this->id);
+
+        $lesson_id = database::select_stat("id", "lesson", "Where user=".$this->id);
         $lessons=[];
 
         for ($i=0;$i<count($lesson_id);$i++)
@@ -120,10 +148,8 @@ class User
     }
     public function subscrib($course_id)
     {
-        $database = new Database();
 
-        $database->connect();
-        $id = $database->select_one("id","subscribtion","WHERE cours ='".$course_id."' AND user ='".$this->id."'");
+        $id = database::select_one_stat("id","subscribtion","WHERE cours ='".$course_id."' AND user ='".$this->id."'");
         $result="";
         if($id==null)
         {
@@ -147,10 +173,10 @@ class User
     }
     public function iSsubscrib($course_id)
     {
-        $database = new Database();
+        //$database = new Database();
 
-        $database->connect();
-        $id = $database->select_one("id","subscribtion","WHERE cours ='".$course_id."' AND user ='".$this->id."'");
+        //$database->connect();
+        $id = database::select_one_stat("id","subscribtion","WHERE cours ='".$course_id."' AND user ='".$this->id."'");
         $result="";
         if($id==null)
         {
@@ -164,10 +190,8 @@ class User
     }
     static function iSrewiev($id)
     {
-        $database = new Database();
 
-        $database->connect();
-        $id = $database->select_one("id","rewiev","WHERE user ='".$id."'");
+        $id = database::select_one_stat("id","rewiev","WHERE user ='".$id."'");
         $result="";
         if($id==null)
         {
@@ -181,10 +205,10 @@ class User
     }
     public function lesson($topic_id)
     {
-        $database = new Database();
 
-        $database->connect();
-        $id = $database->select_one("id","lesson","WHERE topic ='".$topic_id."' AND user ='".$this->id."'");
+
+
+        $id = database::select_one_stat("id","lesson","WHERE topic ='".$topic_id."' AND user ='".$this->id."'");
         $result="";
         if($id==null)
         {

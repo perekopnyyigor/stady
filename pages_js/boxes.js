@@ -10,7 +10,9 @@ class Boxes
     {
         let date = JSON.parse(data_js);
         let content="";
-
+        content+='<div class="alert alert-primary" role="alert">\n' +
+            '            Здесь отображается пройденные темы и периоды между повторениям  \n' +
+            '            </div>';
         content += '<table class="table table-striped table-hover" >';
         content += "<tr border='1px'><th>Тема</th><th>Дата</th><th>Следующая дата</th><th>Период</th>";
         for (let i=0;i<date.length;i++)

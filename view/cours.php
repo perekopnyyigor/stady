@@ -4,9 +4,61 @@ class Cours extends View
 {
     function main($cours,$topic="")
     {
-        $this->includ();
+        $this->including();
         $this->navbar();
         $this->list_chapters($cours,$topic);
+    }
+    function including()
+    {
+        echo '
+        <!DOCTYPE HTML>
+        <html lang="">
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        
+          
+       
+          <script src="../model_js/model.js"></script>
+          
+          <script src="../controller_js/test_controller.js"></script>
+          
+          <script src="../pages_js/test.js"></script>
+          <script src="../pages_js/cours.js"></script>
+         
+         
+         
+         
+    
+          
+         
+          <script src="../controller_js/cours_controller.js"></script>
+        
+         
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="../Katex/katex.min.css">
+    <script src="../Katex/katex.min.js"></script>   
+    <script src="../pages_js/card_code.js"></script>
+           <script src="../controller_js/card_code_controller.js"></script>
+           
+     <link rel="stylesheet" href="../Code/styles/color-brewer.min.css">
+    <script src="../Code/highlight.min.js"></script>
+
+        <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+            
+                <title>studycard</title>
+            
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+                  <!--  <link rel="stylesheet" href="../css/thumbnail-gallery.css">-->
+                
+                <link rel="stylesheet" href="../css/list.css">
+                <link rel="stylesheet" href="../css/style.css">
+       </head>';
     }
     function list_chapters($cours,$top="")
     {
@@ -15,7 +67,9 @@ class Cours extends View
         echo '<div class="mx-auto  col-xl-8 col-lg-8 col-md-10 ">';
         echo '<div class="row">';
         echo "<div class=' col-lg-3 col-md-4 col-12 '>";
-        echo '<h2 style="font-weight:bold" class="m-lg-3">'.$cours->name.'</h2>';
+        echo '<h2 style="font-weight:bold" class="m-4">Курс: '.$cours->name.'</h2>';
+
+
         $user = new User($_SESSION["id"]);
 
 
@@ -40,9 +94,9 @@ class Cours extends View
 
 
             echo '
-            <div class="dropdown d-block d-md-none">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Разделы
+            <div class="dropdown d-block d-md-none w-100">
+              <button class="btn btn-primary btn-lg dropdown-toggle w-100"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span  style="font-weight:bold" >  Выберите тему </span>
               </button>
               <div class="dropdown-menu">';
 
@@ -51,7 +105,7 @@ class Cours extends View
                 {
 
                     echo '<div class="list-group">';
-                    echo '<div class="list-group-item list-group-item-action active" aria-current="true">'.$chapter->name.'</div>';
+                    echo '<div class="list-group-item list-group-item-action active" aria-current="true"> '.$chapter->name.'</div>';
                     foreach ($chapter->topics as $topic)
                     {
                         echo '<a class="list-group-item list-group-item-action" href="../index.php?action=open_topic&topic_id='.$topic->id.'&cours_id='.$cours->id.'">'.$topic->name.'</a>';
@@ -72,8 +126,19 @@ class Cours extends View
         echo "<div id ='test' class='col-lg-9 col-md-8 col-12'>";
         if ($top!="" && $top!=null )
         {
-            echo '<h2 style="font-weight:bold" class="m-lg-3">'.$top->name.'</h2><br>';
-
+            echo '<h3 style="font-weight:bold" class="m-4">Тема: '.$top->name.'</h3><br>';
+            if(!$user->iSsubscrib($cours->id))
+            {
+                echo '<div class="alert alert-primary" role="alert">
+            Чтобы пройти тест подпишитесь на курс 
+            </div>';
+            }
+            else
+            {
+                echo '<div class="alert alert-primary" role="alert">
+            Изучите все пункты а затем пройдите тест на закрепление   
+            </div>';
+            }
             for($i=0;$i<count($top->cards);$i++)
             {
 
@@ -101,7 +166,7 @@ class Cours extends View
                     echo '  <div class="card-body ">';
                     //echo '   <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
                     echo ' <div class="card-text">'.$top->cards[$i]->task.'</div>';
-                    echo "<pre><code id='view' class='language-javascript'>".$top->cards[$i]->content."</code></pre>";
+                    echo "<pre><code id='view' class='.$top->cards[$i]->language.'>".$top->cards[$i]->content."</code></pre>";
                     echo ' </div>';
                     echo '</div>';
                 }
@@ -134,18 +199,25 @@ class Cours extends View
             {
                 echo '<form method="POST" enctype="multipart/form-data" action="../index.php?action=subscrib">
                 <input type="hidden" name="cours_id" value="'.$cours->id.'">
-                <button class="w-50 btn btn-sm btn-primary m-md-2" type="submit">Подписаться</button>                
+                <button class=" btn  btn-primary btn-lg " type="submit"> <span  style="font-weight:bold" >Подписаться</span></button>                
                 </form>';
             }
             if($user->iSsubscrib($cours->id))
-                echo '<button id="'.$top->id.'" class="w-50 btn btn-sm btn-primary" onclick="TestController.onload(this)">Пройти тест</button>';
+                echo '<button id="'.$top->id.'" class=" btn btn-primary btn-lg" onclick="TestController.onload(this)"> <span  style="font-weight:bold" >Пройти тест</span></button>';
 
             echo "</div>";
         }
         else
         {
-            echo '<h2 style="font-weight:bold" class="m-lg-3">Описание курса</h2>';
+            echo '<h3 style="font-weight:bold" class="m-4">Описание курса</h3>';
             echo $this->description($cours);
+            if(!$user->iSsubscrib($cours->id))
+            {
+                echo '<form method="POST" enctype="multipart/form-data" action="../index.php?action=subscrib">
+                <input type="hidden" name="cours_id" value="'.$cours->id.'">
+                <button class=" btn  btn-primary btn-lg " type="submit"> <span  style="font-weight:bold" >Подписаться</span></button>                
+                </form>';
+            }
         }
 
 

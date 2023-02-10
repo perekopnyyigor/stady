@@ -49,11 +49,11 @@ class CardFormula
         CardFormula.data =data;
         let content = '';
         content+='<p>Название формулы</p>';
-        content+='<input oninput=\'CreateCardController.update()\' id="card_name" value="'+data.name+'">';
+        content+='<input oninput=\'CardFormulsController.update()\' id="card_name" value="'+data.name+'">';
         content+='<p>Задание</p>';
-        content +='<textarea oninput=\'CreateCardController.update()\' id="task" style="width: 80%; height: 100px">'+data.task+'</textarea>';
+        content +='<textarea oninput=\'CardFormulsController.update()\' id="task" style="width: 80%; height: 100px">'+data.task+'</textarea>';
         content+='<p>Структура формулы</p>';
-        content += "<textarea style=\"width: 80%; height: 100px\" id='card_content' oninput='CreateCardController.update()'>"+data.content_mark+"</textarea>";
+        content += "<textarea style=\"width: 80%; height: 100px\" id='card_content' oninput='CardFormulsController.update()'>"+data.content_mark+"</textarea>";
         content +='<input id="card_id" type="hidden" value="'+data.id+'">';
         content +="<div id='view'></div>";
         content +='<button onclick="CardFormulsController.redactCard()">Изменить</button>';

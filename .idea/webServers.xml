@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="10a301d3-db1e-403d-9640-a5b29c4b75a9" name="studycard" url="http://195.210.46.30">
+        <fileTransfer rootFolder="/httpdocs" accessType="FTPS" host="195.210.46.30" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

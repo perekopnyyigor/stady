@@ -10,7 +10,7 @@ class Card
     public $topic_id;
     public $picture;
     public $task;
-
+    public $language;
     static function add($data_json)
     {
 
@@ -34,33 +34,33 @@ class Card
     }
 
 
-    function __construct($id,$on_content=false)
+    function __construct($id,$on_content=true)
     {
 
-        $database = new Database();
+        //$database = new Database();
         $this->id=$id;
-        $this->name=$database->select_one("name","card","WHERE id ='".$id."'");
-        $this->type=$database->select_one("type","card","WHERE id ='".$id."'");
-        $this->hint=$database->select_one("hint","card","WHERE id ='".$id."'");
-
+        $this->name=database::select_one_stat("name","card","WHERE id ='".$id."'");
+        $this->type=database::select_one_stat("type","card","WHERE id ='".$id."'");
+        $this->hint=database::select_one_stat("hint","card","WHERE id ='".$id."'");
+        $this->language=database::select_one_stat("language","card","WHERE id ='".$id."'");
         if($on_content)
         {
-            $content = $database->select_one("content","card","WHERE id ='".$id."'");
+            $content = database::select_one_stat("content","card","WHERE id ='".$id."'");
             $this->content=str_replace("slash","\\", $content);
 
-            $content_mark = $database->select_one("content_mark","card","WHERE id ='".$id."'");
+            $content_mark = database::select_one_stat("content_mark","card","WHERE id ='".$id."'");
             $this->content_mark=str_replace("slash","\\", $content_mark);
 
-            $task=$database->select_one("task","card","WHERE id ='".$id."'");
+            $task=database::select_one_stat("task","card","WHERE id ='".$id."'");
             $this->task=str_replace("slash","\\", $task);
            // $this->content_mark=$database->select_one("content_mark","card","WHERE id ='".$id."'");
         }
 
 
-        $this->topic_id=$database->select_one("topic","card","WHERE id ='".$id."'");
-        $this->chapter_id=$database->select_one("chapter","topic","WHERE id ='".$this->topic_id."'");
-        $this->cours_id=$database->select_one("cours","chapter","WHERE id ='".$this->chapter_id."'");
-        $this->picture =$database->select("path","picture","WHERE card ='".$id."'");
+        $this->topic_id=database::select_one_stat("topic","card","WHERE id ='".$id."'");
+        $this->chapter_id=database::select_one_stat("chapter","topic","WHERE id ='".$this->topic_id."'");
+        $this->cours_id=database::select_one_stat("cours","chapter","WHERE id ='".$this->chapter_id."'");
+        $this->picture =database::select_stat("path","picture","WHERE card ='".$id."'");
     }
     function redact($data_json)
     {
@@ -79,6 +79,7 @@ class Card
         content = '$card_text',
         content_mark = '$data->card_mark',
         hint = '$data->hint' ,
+        language = '$data->language',
         task = '$data->task' 
         WHERE id = '$this->id'";
 

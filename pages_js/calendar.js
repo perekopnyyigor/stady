@@ -19,7 +19,9 @@ class  Calendar
     {
         let content ="";
 
-
+        content+='<div class="alert alert-primary" role="alert">\n' +
+            '            Здесь отображается расписание повторений  \n' +
+            '            </div>';
         let dat = new Date();
         let dat_arr=[];
         for (let i=0;i<5;i++)

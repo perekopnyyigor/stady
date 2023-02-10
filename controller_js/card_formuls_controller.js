@@ -16,12 +16,20 @@ class CardFormulsController
         let data = CardFormula.get_card_data();
         Model.add_card(data);
         CreateCardController.reload(CreateCard.cours_id);
+
     }
     static openCardFormContent(id)
     {
         let data = Model.get_card(id);
 
+
+        document.getElementById("result").innerHTML="";
+        document.getElementById("variant").innerHTML="";
         CardFormula.redact(data);
+
+        CardFormulsController.check();
+        InstrumentController.onload();
+
     }
     static redactCard()
     {
@@ -31,6 +39,7 @@ class CardFormulsController
         Model.redact_card(data);
 
         CreateCardController.reload(CreateCard.cours_id);
+
     }
     static click()
     {
@@ -58,13 +67,37 @@ class CardFormulsController
         document.getElementById("result").innerHTML='<formula>'+CardFormula.res(CardFormulsController.contentArr,0)+'</formula>';
         document.getElementById("variant").innerHTML=CardFormula.variant(CardFormulsController.contentArr,0,CardFormulsController.countHint);
         CardFormulsController.countHint=-10;
+
+        CardFormulsController.update();
+
+    }
+    static update()
+    {
+        let task_content = document.getElementById("task").value;
+        let name = document.getElementById("card_name").value;
+        let card_content = document.getElementById("card_content").value;
+        card_content=card_content.split('{m}').join(" ");
+
+        document.getElementById("result").innerHTML="";
+        document.getElementById("result").innerHTML='<formula>'+CardFormula.res(CardFormulsController.contentArr,0)+'</formula>';
+
+        document.getElementById("variant").innerHTML="";
+        document.getElementById("variant").innerHTML=CardFormula.variant(CardFormulsController.contentArr,0);
+
+        document.getElementById("task_brows").innerHTML="";
+
+        document.getElementById("task_brows").innerHTML=CreateCard.result(name,task_content,'<formula>'+card_content+'</formula>');
+
+
+
         let formula = document.getElementsByTagName("formula");
         for (let i = 0; i < formula.length; i++)
         {
             let text = formula[i].innerHTML;
-
+            //text = text.replace("slash","\\\\");
             katex.render(text, formula[i]);
         }
+        hljs.highlightAll();
     }
 
 }

@@ -31,35 +31,42 @@ class CoursObj
     }
     static function course()
     {
-        $database = new Database();
-        $course_id = $database->select("id", "cours");
+        //$database = new Database();
+       ;
+
+
+
+        $course_id = database::select_stat("id", "cours");
+
         $cousers=[];
 
         for ($i=0;$i<count($course_id);$i++)
         {
-            $cousers[] = new CoursObj($course_id[$i]);
+            $cousers[] = new CoursObj($course_id[$i],false);
         }
         return $cousers;
     }
-    public function __construct($id)
+    public function __construct($id,$content=true,$content_topic=false)
     {
-        $database = new Database();
+
+
         $this->id=$id;
-        $this->name=$database->select_one("name","cours","WHERE id ='".$id."'");
-        $this->description=$database->select_one("description","cours","WHERE id ='".$id."'");
-        $this->user=$database->select_one("user","cours","WHERE id ='".$id."'");
-        $this->picture=$database->select_one("picture","cours","WHERE id ='".$id."'");
-        $this->chapters = $this->chapters();
+        $this->name=database::select_one_stat("name","cours","WHERE id ='".$id."'");
+        $this->description=database::select_one_stat("description","cours","WHERE id ='".$id."'");
+        $this->user=database::select_one_stat("user","cours","WHERE id ='".$id."'");
+        $this->picture=database::select_one_stat("picture","cours","WHERE id ='".$id."'");
+        if($content==true)
+            $this->chapters = $this->chapters($content_topic);
     }
-    public function chapters()
+    public function chapters($content_topic)
     {
-        $database = new Database();
-        $chapters_id = $database->select("id", "chapter", "Where cours=".$this->id);
+
+        $chapters_id = database::select_stat("id", "chapter", "Where cours=".$this->id);
         $chapters=[];
 
         for ($i=0;$i<count($chapters_id);$i++)
         {
-            $chapters[] = new Chapter($chapters_id[$i]);
+            $chapters[] = new Chapter($chapters_id[$i],$content_topic);
         }
         return $chapters;
     }
@@ -100,8 +107,8 @@ class CoursObj
             $src="../img_cours/".$name_img;
             if(move_uploaded_file($tmp_name, $path))
             {
-                //$source = imagecreatefrompng($path);
-                //imagejpeg($source, $path, 100);
+                $source = imagecreatefrompng($path);
+                imagejpeg($source, $path, 10);
 
 
                 $database = new Database();
