@@ -213,9 +213,9 @@ class User
         if($id==null)
         {
             $database = new Database();
-
+            $now = date('Y-m-d');
             $database->connect();
-            $sql = "INSERT INTO lesson (user, topic) VALUES ('".$this->id."','".$topic_id."')";
+            $sql = "INSERT INTO lesson (user, topic,date ,date_next) VALUES ('".$this->id."','".$topic_id."','".$now."','".$now."')";
             $result = $database->conn->query($sql);
             // Check
             if ($database->conn->error)

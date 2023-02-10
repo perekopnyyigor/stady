@@ -145,6 +145,7 @@ switch ($_GET["action"])
         echo $user->find_lessons();
         break;
     case "add_img":
+        database::connect_stat();
         $id= $_POST["card_id"];
         $card = new Card($id);
         $card->uploadImg();
