@@ -104,13 +104,13 @@
 .tabl th, .tabl td:first-child {
     background: #87C1EC;
     color: white;
-    padding: 10px 20px;
+    padding: 5px 10px;
 }
 .tabl th, .tabl td {
     border-style: solid;
     border-width: 0 1px 1px 0;
     border-color: white;
-    padding: 10px 20px;
+    padding: 5px 10px;
 }
 .tabl td {
     background: #D8E6F3;

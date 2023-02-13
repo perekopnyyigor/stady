@@ -7,7 +7,7 @@ class Carosel
        <div class="row">
         <div class="col-xl-2 col-lg-2 col-md-1 "></div>
         <div class="col-xl-8 col-lg-8 col-md-10 ">
-        <h2 class="px-4 mt-5" style="font-weight:bold">О нас</h2>
+        <h2 class="px-4 mt-5" style="font-weight:bold">Studycard - сайт для обучения </h2>
        
         
         
@@ -17,14 +17,14 @@ class Carosel
                <img src="../image/on-a-table-with-copy-space.webp" data-bs-interval="5000" class="d-block w-100" alt="...">
                 <div class="carousel-caption position-absolute start-0  ">
                 <h4  style="font-weight: bold; color: white;">Учитесь легко</h4>
-                <p style="font-weight: bold; color: white;">Собирайте определения и решения задач в тестах</p>
+                <p style="font-weight: bold; color: white;">Изучайте предметы с помощью наших тестов</p>
             </div></div>
             
             <div class="carousel-item" data-bs-interval="5000">
               <img src="../image/books-and-copy-space.webp" class="d-block w-100" alt="...">
                 <div class="carousel-caption position-absolute end-0">
                 <h4 style="font-weight: bold; color: black;">Учитесь быстро</h4>
-                <p style="font-weight: bold; color: black;">Нарабатывайте практику в любое удобное время.</p>
+                <p style="font-weight: bold; color: black;">Нарабатывайте практику по предметам в любое удобное время.</p>
             </div></div>
             
             <div class="carousel-item" data-bs-interval="5000">

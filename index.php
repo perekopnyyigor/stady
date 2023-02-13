@@ -12,6 +12,7 @@ require_once "objects/topic.php";
 require_once "objects/card.php";
 require_once "objects/lesson.php";
 require_once "objects/cours.php";
+require_once "objects/sitemap.php";
 
 $main_page = new MainPage();
 $enter_page = new Enter();
@@ -213,6 +214,11 @@ switch ($_GET["action"])
         $content=$data->content;
         $user = new User($user_id);
         $user->add_rewiev($content);
+        break;
+    case "sitemap":
+        database::connect_stat();
+        $sitemap = new Sitemap();
+        $sitemap->main();
         break;
 
 }

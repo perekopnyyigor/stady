@@ -4,61 +4,66 @@ class Cours extends View
 {
     function main($cours,$topic="")
     {
-        $this->including();
+
+        $this->including($cours,$topic);
         $this->navbar();
         $this->list_chapters($cours,$topic);
     }
-    function including()
+    function including($cours,$topic)
     {
         echo '
         <!DOCTYPE HTML>
         <html lang="">
         <head>
+        <meta name="google-site-verification" content="BH4EEAs4PRSW5c0Wbr3tiUtY_KxAF-c" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/bootstrap.bundle.min.js"></script>
-        
-          
-       
-          <script src="../model_js/model.js"></script>
-          
-          <script src="../controller_js/test_controller.js"></script>
-          
+        <script src="../js/bootstrap.bundle.min.js"></script>   
+          <script src="../model_js/model.js"></script>         
+          <script src="../controller_js/test_controller.js"></script>         
           <script src="../pages_js/test.js"></script>
-          <script src="../pages_js/cours.js"></script>
-         
-         
-         
-         
-    
-          
-         
+          <script src="../pages_js/cours.js"></script> 
           <script src="../controller_js/cours_controller.js"></script>
         
          
         <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../Katex/katex.min.css">
-    <script src="../Katex/katex.min.js"></script>   
-    <script src="../pages_js/card_code.js"></script>
-           <script src="../controller_js/card_code_controller.js"></script>
+        <script src="../Katex/katex.min.js"></script>   
+        <script src="../pages_js/card_code.js"></script>
+        <script src="../controller_js/card_code_controller.js"></script>
            
      <link rel="stylesheet" href="../Code/styles/color-brewer.min.css">
     <script src="../Code/highlight.min.js"></script>
 
-        <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">';
             
-                <title>studycard</title>
-            
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-                <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+     $this->seo($cours,$topic);
+        $this->count();
+     echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
                   <!--  <link rel="stylesheet" href="../css/thumbnail-gallery.css">-->
                 
                 <link rel="stylesheet" href="../css/list.css">
                 <link rel="stylesheet" href="../css/style.css">
        </head>';
+    }
+    function seo($cours,$top)
+    {
+        if($top!=null)
+        {
+            echo '<title>'.$top->name.'</title>';
+            echo '<meta name="description" content="'.$top->name.' тестирование и практика">';
+
+        }
+        else
+        {
+            echo '<title>'.$cours->name.'</title>';
+            echo '<meta name="description" content="'.$cours->description.'">';
+        }
+
     }
     function list_chapters($cours,$top="")
     {
@@ -88,6 +93,7 @@ class Cours extends View
                 echo '<h5 style="font-weight:bold" class="m-lg-3">'.$topic->name.'</h5></a>';
 
             }
+
             echo "</div>";
 
         }
@@ -122,11 +128,12 @@ class Cours extends View
         
         echo "</div>";
 
-
+        echo "<section itemscope itemtype=\"http://schema.org/Article\">";
         echo "<div id ='test' class='col-lg-9 col-md-8 col-12'>";
         if ($top!="" && $top!=null )
         {
-            echo '<h3 style="font-weight:bold" class="m-4">Тема: '.$top->name.'</h3><br>';
+            echo '<h3 style="font-weight:bold"   itemprop="headline" class="m-4">Тема: '.$top->name.'</h3><br>';
+
             if(!$user->iSsubscrib($cours->id))
             {
                 echo '<div class="alert alert-primary" role="alert">
@@ -149,11 +156,11 @@ class Cours extends View
                 {
 
                     echo ' <div class="card shadow mb-3">';
-                    echo '  <div class="card-header"><h4 style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h4></div>';
+                    echo '  <div class="card-header"><h4 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3" >'.$top->cards[$i]->name.'</h4></div>';
                     echo '  <div class="card-body ">';
-                    echo ' <div class="card-text">'.$top->cards[$i]->task.'</div>';
+                    echo ' <div class="card-text" itemprop="articleBody">'.$top->cards[$i]->task.'</div>';
                      //echo '   <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
-                     echo '   <formula class="card-text">'.$top->cards[$i]->content.'</formula>';
+                     echo '   <formula class="card-text" itemprop="articleBody">'.$top->cards[$i]->content.'</formula>';
                      echo ' </div>';
                     echo '</div>';
                 }
@@ -162,18 +169,18 @@ class Cours extends View
 
 
                     echo ' <div class="card shadow mb-3">';
-                    echo '  <div class="card-header"><h4 style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h4></div>';
+                    echo '  <div class="card-header"><h4 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h4></div>';
                     echo '  <div class="card-body ">';
                     //echo '   <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
-                    echo ' <div class="card-text">'.$top->cards[$i]->task.'</div>';
-                    echo "<pre><code id='view' class='.$top->cards[$i]->language.'>".$top->cards[$i]->content."</code></pre>";
+                    echo ' <div class="card-text" itemprop="articleBody">'.$top->cards[$i]->task.'</div>';
+                    echo "<pre><code id='view' itemprop=\"articleBody\" class='.$top->cards[$i]->language.' >".$top->cards[$i]->content."</code></pre>";
                     echo ' </div>';
                     echo '</div>';
                 }
                 else if($top->cards[$i]->type == 1)
                 {
                     echo '<div class="card shadow mb-3" >';
-                    echo '  <div class="card-header"><h4 style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h4></div>';
+                    echo '  <div class="card-header"><h4 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h4></div>';
                       echo '<div class="card-body ">';
                        //echo ' <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
                         if($top->cards[$i]->picture!=null)
@@ -181,10 +188,10 @@ class Cours extends View
                             //echo '<img width="200px" src="'.$top->cards[$i]->picture.'">';/*
                             for($j=0;$j<count($top->cards[$i]->picture);$j++)
                             {
-                                echo '<img width="200px" src="'.$top->cards[$i]->picture[$j].'">';
+                                echo '<img itemprop="image" width="200px" src="'.$top->cards[$i]->picture[$j].'">';
                             }
                         }
-                       echo ' <p class="card-text">'.$top->cards[$i]->task.'<br>';
+                       echo ' <p class="card-text" itemprop="articleBody">'.$top->cards[$i]->task.'<br>';
                         echo $top->cards[$i]->content.'</p>';
                       echo '</div>';
                     echo ' </div>';

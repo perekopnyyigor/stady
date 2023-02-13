@@ -21,8 +21,10 @@ class MainPage extends View
        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.bundle.min.js"></script>
-      
-        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
+        <meta name="google-site-verification" content="BH4EEAs4PRSW5c0Wbr3tiUtY_KxAF-c" />';
+
+        $this->count();
+        echo '<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
        
            
      

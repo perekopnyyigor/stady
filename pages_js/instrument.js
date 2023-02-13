@@ -37,7 +37,11 @@ class Instrument
     {
         let list=[];
         list[0]={name:"<formuls>x^2</formuls>",text:"x^2"};
-
+        list.push({name:"<formuls>\\cfrac{a}{b}</formuls>",text:"\\\\cfrac{}{}"});
+        list.push({name:"<formuls>\\sqrt{a}</formuls>",text:"\\\\sqrt{}"});
+        list.push({name:"<formuls>\\sin t</formuls>",text:"\\\\sin "});
+        list.push({name:"<formuls>\\cos t</formuls>",text:"\\\\cos "});
+        list.push({name:"<formuls>\\Big( x \\Big)</formuls>",text:"\\\\Big(  \\\\Big) "});
         return list;
     }
 

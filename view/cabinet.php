@@ -4,6 +4,7 @@ class Cabinet extends View
 {
     public function main($user)
     {
+        $this->count();
         $this->includ();
         $this->navbar();
         $this->dashboard($user);

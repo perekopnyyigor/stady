@@ -77,13 +77,14 @@ class TestController
     {
         return string.split(search).join(replace);
     }
-    static answer(inner_value)
+    static answer(i)
     {
 
         let massiv_value = Test.contentArr[TestController.count_variant];
-        //alert(massiv_value+" "+inner_value);
-        massiv_value = TestController.replaceAll(massiv_value,"\\","");
+        let inner_value = Test.contentArr[i];
 
+       // massiv_value = TestController.replaceAll(massiv_value,"\\","");
+        //alert(inner_value+" "+massiv_value);
         if(inner_value == massiv_value)
         {
             TestController.count_variant+=2;

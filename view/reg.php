@@ -28,19 +28,19 @@ class Reg extends View
                 
                 <div class="form-floating">
                   <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
-                  
+                  <label for="floatingInput">Пароль</label>
                 </div>
                 
                 <div class="form-floating">
                   <input type="password" class="form-control" id="floatingPassword1" placeholder="Password" name="password2">
-                 
+                 <label for="floatingInput">Подтвердите пароль</label>
                 </div>
             
                 <div class="checkbox mb-3">
                 
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+                <p class="mt-5 mb-3 text-muted">&copy; 2017–2023</p>
               </form>
             </main>
         </body>

@@ -149,7 +149,7 @@ class Test{
                 let text='';
                 if(i%2==1)
                 {
-                    text +='<button class="btn btn-primary  m-1" onclick="TestController.answer(\''+Test.contentArr[i]+'\')" >';
+                    text +='<button class="btn btn-primary  m-1" onclick="TestController.answer('+i+')" >';
                     text += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="'+Test.language+'">'+Test.contentArr[i]+'</code></pre>';
                     text += '</button>';
                 }
@@ -183,7 +183,7 @@ class Test{
                 let text='';
                 if(i%2==1)
                 {
-                    text +='<button class="btn btn-primary  m-1" onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
+                    text +='<button class="btn btn-primary  m-1" onclick="TestController.answer('+i+')">';
                     text +='<formula >'+Test.contentArr[i]+'</formula>';
                     text += '</button>';
                 }
@@ -218,7 +218,8 @@ class Test{
                 let text='';
                 if(i%2==1)
                 {
-                    text +='<button class="btn btn-primary  m-1"  onclick="TestController.answer(\''+Test.contentArr[i]+'\')">';
+                    //text +='<button class="btn btn-primary  m-1"  onclick="TestController.answer(\"'+Test.contentArr[i]+'\")">';
+                    text +='<button class="btn btn-primary  m-1"  onclick="TestController.answer('+i+')">';
                     text +=Test.contentArr[i];
                     text += '</button>';
                 }

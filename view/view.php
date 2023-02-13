@@ -1,12 +1,33 @@
 <?php
 abstract class View
 {
+    function count()
+    {
+        echo '<!-- Yandex.Metrika counter -->
+        <script type="text/javascript" >
+           (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+           m[i].l=1*new Date();
+           for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+           k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+           (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        
+           ym(92455698, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true
+           });
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/92455698" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->';
+    }
     function includ()
     {
         echo '
         <!DOCTYPE HTML>
         <html lang="">
+        
         <head>
+        <meta name="google-site-verification" content="BH4EEAs4PRSW5c0Wbr3tiUtY_KxAF-c" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.bundle.min.js"></script>
@@ -32,8 +53,9 @@ abstract class View
         <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../Katex/katex.min.css">
     <script src="../Katex/katex.min.js"></script>   
-    <script src="../pages_js/card_code.js"></script>
-           <script src="../controller_js/card_code_controller.js"></script>
+    <script src="../pages_js/card_code.js"></script>';
+        $this->count();
+           echo'<script src="../controller_js/card_code_controller.js"></script>
            
      <link rel="stylesheet" href="../Code/styles/color-brewer.min.css">
     <script src="../Code/highlight.min.js"></script>
@@ -42,7 +64,7 @@ abstract class View
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
             
-                <title>studycard</title>
+                <title>Studycard</title>
             
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
                 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
