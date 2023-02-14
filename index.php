@@ -19,7 +19,10 @@ $enter_page = new Enter();
 $reg_page = new Reg();
 $cabinet = new Cabinet();
 $cours_page = new Cours();
+function url()
+{
 
+}
 switch ($_GET["action"])
 {
     case "all_chapters":
