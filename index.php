@@ -42,8 +42,10 @@ switch ($_GET["action"])
         User::add($data);
         break;
     case "enter_action":
+
         database::connect_stat();
         $data=$enter_page->get_data();
+
         User::enter($data);
         break;
     case "cabinet":
@@ -117,8 +119,8 @@ switch ($_GET["action"])
         }
         else
         {
-            echo '<script>alert("Чтобы подписаться авторизируйтесь на сайте");';
-            echo 'location.href = "../index.php?action=enter";   </script>';
+            //echo '<script>alert("Чтобы подписаться авторизируйтесь на сайте");';
+            echo '<script>location.href = "../index.php?action=enter";   </script>';
         }
 
 

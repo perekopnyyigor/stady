@@ -25,10 +25,7 @@ class MainPage extends View
 
         $this->count();
         echo '<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
-       
-           
-     
-    
+   
 
         <meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,7 +56,7 @@ class MainPage extends View
             echo '<a class="link-dark" style="text-decoration:none;" href="../index.php?action=open_cours&cours_id='.$cours->id.'">';
             echo '<div class="shadow card   p-4 border " >';
             echo '<img style="height:200px; width:250px" class="img-thumbnail mx-auto " src="'.$cours->picture.'" class="card-img-top" alt="...">';
-            echo '<h4 style="font-weight:bold" class="card-title">'.$cours->name.'</h4>';
+            echo '<h2 style="font-weight:bold" class="card-title">'.$cours->name.'</h2>';
             echo '<p style="font-weight:bold" class="card-text">'.$cours->description.'</p>';
             //echo '<a class="btn btn-primary" href="../index.php?action=open_cours&cours_id='.$cours->id.'">Пререйти</a>';
             echo '</div>';

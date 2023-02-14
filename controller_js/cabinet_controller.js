@@ -38,7 +38,7 @@ class CabinetController
         let data_js = JSON.stringify(lesson);
         let data = Model.get_lessons(data_js);
 
-        document.getElementById("name").innerHTML="Обучение";
+        document.getElementById("name").innerHTML="<h2 style=\"font-weight:bold\">Обучение</h2>";
         Boxes.onload(data);
     }
     static calendar()
@@ -49,7 +49,7 @@ class CabinetController
         let data_js = JSON.stringify(lesson);
 
         let data = Model.get_lessons(data_js);
-        document.getElementById("name").innerHTML="Календарь";
+        document.getElementById("name").innerHTML="<h2 style=\"font-weight:bold\">Календарь</h2>";
         Calendar.onload(data);
     }
 }

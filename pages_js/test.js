@@ -245,17 +245,21 @@ class Test{
 
             if(last_card)
             {
-                content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.result()">Закончить</button>';
-                content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.rew()">Отзыв</button>';
+
+                //content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.rew()">Отзыв</button>';
+                content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.result()">Результат</button>';
             }
             else
-                content+='<button type="button" class="btn btn-primary " onclick="TestController.next_card()">далее</button>';
+                content+='<button type="button" class="btn btn-primary " onclick="TestController.next_card()">Далее</button>';
         }
         return content;
     }
-    static review()
+    static review(result)
     {
         let content ="";
+        content+='<h2 class="m-lg-3" style="font-weight:bold">Результат</h2>';
+        content+='<label  class="form-label m-4">'+result+'</label>';
+        content+='<button type="button" class="btn btn-primary m-1"  onclick="TestController.end()">Закончить</button>';
         content+='<h2 class="m-lg-3" style="font-weight:bold">Отзыв</h2>';
         content +='<div class="mb-3">';
         content +='<label  class="form-label m-4">Пожалуйста, оставьте отзыв, пожелание или предложение, мы обязательно их учтем</label>';

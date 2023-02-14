@@ -68,7 +68,7 @@ class Model
     }
     static add_try(data_json)
     {
-       alert( Model.ajax(data_json,"add_try"));
+        Model.ajax(data_json,"add_try");
     }
     static get_lessons(data_json)
     {

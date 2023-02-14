@@ -18,7 +18,7 @@ class Cabinet
 
         content += '<div class="list-group d-none d-md-block">';
         content += '<a href="#" class="list-group-item list-group-item-action active">';
-        content += '<h5 style="font-weight:bold" >Выберите пункт</h5></a>';
+        content += '<h3 style="font-weight:bold" >Выберите пункт</h3></a>';
         let i=1;
         if(localStorage.getItem("admin")==1)
             i=0;
@@ -45,7 +45,7 @@ class Cabinet
         let content ='';
 
         content += '<a href="#" class="list-group-item list-group-item-action" onclick="'+menu.function+'">';
-        content += '<h5 style="font-weight:bold" className="m-lg-3 p-0">'+menu.name+'</h5>';
+        content += '<h3 style="font-weight:bold" className="m-lg-3 p-0">'+menu.name+'</h3>';
         content += '</a>';
         return content;
 

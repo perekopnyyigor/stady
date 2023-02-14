@@ -33,7 +33,8 @@ class User
         else if ($database->select("id","user","WHERE name ='".$user->login."'")!=null)
         {
             $result = "Пользователь с таким именем уже зарегистрирован";
-
+            echo '<script>alert("'.$result.'");';
+            echo 'location.href = "../index.php?action=reg";</script>';
         }
         else
         {
@@ -45,19 +46,27 @@ class User
             {
                 die("failed: " . $database->conn->error);
             }
-            $result = "Добро пожаловать";
+            //$result = "Добро пожаловать";
 
             $id = database::select_one_stat("id","user","WHERE name ='".$user->login."'");
             $admin = database::select_one_stat("admin","user","WHERE name ='".$user->login."'");
             $rewiev = User::iSrewiev($id);
-            $_SESSION["id"]=$id;
             echo '<script>
                 localStorage.setItem("id",'.$id.');
                 localStorage.setItem("admin",'.$admin.');
                 localStorage.setItem("rewiev",'.$rewiev.');
-                alert("'.$result.'");
-                location.href = "/index.php";
+                
             </script>';
+            $_SESSION["id"]=$id;
+
+            if(isset($_SESSION["back"]))
+            {
+                $user=new User($id);
+                $user->subscrib($_SESSION["cours"]);
+                echo '<script>location.href="'.$_SESSION["back"].'";</script>';
+            }
+            else
+                echo '<script>location.href="../index.php";</script>';
 
         }
        ;
@@ -77,19 +86,29 @@ class User
             $rewiev = User::iSrewiev($id);
 
             $result = "Добро пожаловать";
-            $_SESSION["id"]=$id;
-            echo '<script>
+
+            echo '
+              <script>
                 localStorage.setItem("id",'.$id.');
                 localStorage.setItem("admin",'.$admin.');
-                localStorage.setItem("rewiev",'.$rewiev.');
-                alert("'.$result.'");
-                location.href = "/index.php";
+                localStorage.setItem("rewiev",'.$rewiev.');                             
             </script>';
-            //header("Location:../index.php?action=cabinet");
+            $_SESSION["id"]=$id;
+
+            if(isset($_SESSION["back"]))
+            {
+                $user=new User($id);
+                $user->subscrib($_SESSION["cours"]);
+                echo '<script>location.href="'.$_SESSION["back"].'";</script>';
+            }
+            else
+                echo '<script>location.href="../index.php";</script>';
         }
         else
         {
-            $result="Неправильный логин или пароль";
+            $result = "Неправельный логин или пароль";
+            echo '<script>alert("'.$result.'");';
+            echo 'location.href = "../index.php?action=enter";</script>';
         }
 
 
@@ -169,7 +188,7 @@ class User
         {
             $result="Вы уже подписаны на данный курс";
         }
-        echo '<script>alert("'.$result.'")</script>';
+        //echo '<script>alert("'.$result.'")</script>';
     }
     public function iSsubscrib($course_id)
     {
@@ -229,7 +248,6 @@ class User
             $result="Вы уже подписаны на данный курс";
         }
     }
-
     public function add_rewiev($content)
     {
         $database = new Database();
