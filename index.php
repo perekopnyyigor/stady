@@ -21,16 +21,47 @@ $cabinet = new Cabinet();
 $cours_page = new Cours();
 function url()
 {
+    $url = explode("/", $_SERVER['REQUEST_URI']);
+    if ($url[1]=="")
+    {
+
+        $main_page = new MainPage();
+        database::connect_stat();
+        $courses = CoursObj::course();
+        $main_page->main($courses);
+    }
+    if(count($url)==2 && $url[1]!="")
+    {
+        database::connect_stat();
+        $id=database::select_one_stat("id","cours","WHERE translit ='".$url[1]."'");
+        $cours = new CoursObj($id);
+        $cours_page = new Cours();
+        $cours_page->main($cours);
+    }
+    if(count($url)==3 && $url[2]!="")
+    {
+        database::connect_stat();
+        $cours_id=database::select_one_stat("id","cours","WHERE translit ='".$url[1]."'");
+        $topic_id=database::select_one_stat("id","topic","WHERE translit ='".$url[2]."'");
+        $cours = new CoursObj($cours_id);
+        $topic = new Topic($topic_id);
+        $cours_page = new Cours();
+        $cours_page->main($cours,$topic);
+    }
 
 }
+
 switch ($_GET["action"])
 {
-    case "all_chapters":
     case "":
+        url();
+    break;
+    case "all_chapters":
         database::connect_stat();
         $courses = CoursObj::course();
         $main_page->main($courses);
         break;
+
     case "enter":
         database::connect_stat();
         $enter_page->main();
@@ -112,21 +143,11 @@ switch ($_GET["action"])
     case "subscrib":
         database::connect_stat();
         $id=$_SESSION["id"];
-        $cours = $_POST["cours_id"];
-        if ( $id != null )
-        {
-            $user = new User($id);
+        $cours = json_decode($_POST["data_json"])->cours_id;
+        echo $id."/".$cours;
+        $user = new User($id);
+        if (!$user->iSsubscrib($cours))
             $user->subscrib($cours);
-            echo '<script>location.href = "../index.php?action=open_cours&cours_id='.$cours.'";  </script>';
-
-        }
-        else
-        {
-            //echo '<script>alert("Чтобы подписаться авторизируйтесь на сайте");';
-            echo '<script>location.href = "../index.php?action=enter";   </script>';
-        }
-
-
 
         break;
     case "add_lesson":

@@ -61,12 +61,11 @@ class User
 
             if(isset($_SESSION["back"]))
             {
-                $user=new User($id);
-                $user->subscrib($_SESSION["cours"]);
+
                 echo '<script>location.href="'.$_SESSION["back"].'";</script>';
             }
             else
-                echo '<script>location.href="../index.php";</script>';
+                echo '<script>location.href="../";</script>';
 
         }
        ;
@@ -97,12 +96,10 @@ class User
 
             if(isset($_SESSION["back"]))
             {
-                $user=new User($id);
-                $user->subscrib($_SESSION["cours"]);
                 echo '<script>location.href="'.$_SESSION["back"].'";</script>';
             }
             else
-                echo '<script>location.href="../index.php";</script>';
+                echo '<script>location.href="../";</script>';
         }
         else
         {
@@ -234,7 +231,7 @@ class User
             $database = new Database();
             $now = date('Y-m-d');
             $database->connect();
-            $sql = "INSERT INTO lesson (user, topic,date ,date_next) VALUES ('".$this->id."','".$topic_id."','".$now."','".$now."')";
+            $sql = "INSERT INTO lesson (user, topic,date ,date_next, period ) VALUES ('".$this->id."','".$topic_id."','".$now."','".$now."',0)";
             $result = $database->conn->query($sql);
             // Check
             if ($database->conn->error)

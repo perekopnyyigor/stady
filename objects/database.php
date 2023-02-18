@@ -9,15 +9,15 @@ class database
     static function connect_stat()
     {
 
-        $servername = "srv-pleskdb45.ps.kz:3306";
+       /* $servername = "srv-pleskdb45.ps.kz:3306";
         $username = "studycar_bd";
         $password = "Yaroslav150213!";
-        $dbname = "studycar_bd";
-        /*
+        $dbname = "studycar_bd";*/
+
         $servername = "127.0.0.1:3306";
         $username = "mysql";
         $password = "mysql";
-        $dbname = "learn";*/
+        $dbname = "learn";
         // Create connection
         database::$connect = new mysqli($servername, $username, $password, $dbname);
         mysqli_set_charset(database::$connect, "utf8");

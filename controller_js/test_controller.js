@@ -12,17 +12,24 @@ class TestController
     {
         if(localStorage.getItem("id")==null)
         {
-            alert("Чтобы пройти тест вам необходимо авторизироваться и записаться на курс")
+            localStorage.setItem("back",location.href);
+            location.href = "../index.php?action=enter";
         }
         else
         {
+
+            let data_subscript={
+                cours_id:document.getElementById("cours_id").value,
+                user_id:localStorage.getItem("id")
+            };
+            let data_subscript_js = JSON.stringify(data_subscript);
+            Model.ajax(data_subscript_js,"../index.php?action=subscrib");
+
+
             let data_js = Model.get_topic(obj.id);
             TestController.data = JSON.parse(data_js);
-
             TestController.add_try(obj);
-
             document.getElementById("test").innerHTML=Test.card(TestController.data.cards[0],false);
-
             let formula = document.getElementsByTagName("formula");
             for (let i = 0; i < formula.length; i++)
             {

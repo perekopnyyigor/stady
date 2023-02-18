@@ -56,6 +56,7 @@ class Topic
 
         $this->id=$id;
         $this->name=database::select_one_stat("name","topic","WHERE id ='".$id."'");
+        $this->translit=database::select_one_stat("translit","topic","WHERE id ='".$id."'");
         $this->chapter=database::select_one_stat("chapter","topic","WHERE id ='".$id."'");
         $this->cours=database::select_one_stat("cours","chapter","WHERE id ='".$this->chapter."'");
         if($cards)

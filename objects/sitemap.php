@@ -26,11 +26,11 @@ class Sitemap
     {
         $text="";
 
-        $id_massiv = database::select_stat("id","cours");
-        foreach ($id_massiv as $id)
+        $translit_massiv = database::select_stat("translit","cours");
+        foreach ($translit_massiv as $translit)
         {
                 $text.= "<url>\n";
-                $text.="<loc>https://studycard.ru/index.php?action=open_cours&amp;cours_id=".$id."</loc>\n";
+                $text.="<loc>https://studycard.ru/".$translit."</loc>\n";
                 $text.="<lastmod>2023-01-01</lastmod>\n";
                 $text.= "</url>\n";
 
@@ -47,8 +47,9 @@ class Sitemap
         foreach ($id_massiv as $id)
         {
             $topic=new Topic($id);
+            $cours = new CoursObj($topic->cours);
             $text.= "<url>\n";
-            $text.="<loc>https://studycard.ru/index.php?action=open_topic&amp;topic_id=".$id."&amp;cours_id=".$topic->cours."</loc>\n";
+            $text.="<loc>https://studycard.ru/".$cours->translit."/".$topic->translit."</loc>\n";
             $text.="<lastmod>2023-01-01</lastmod>\n";
             $text.= "</url>\n";
 

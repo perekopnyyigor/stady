@@ -104,7 +104,7 @@ abstract class View
         ';
     }
 
-    function navbar()
+    /*function navbar()
     {
         echo '
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -119,7 +119,7 @@ abstract class View
                 echo '
               <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                  <a href = "../index.php?action=enter" class="nav-link active" aria-current="page" href="#">Вход</a>
+                  <a href = "../" class="nav-link active" aria-current="page" href="#">Вход</a>
                 </li>
                 <li class="nav-item">
                   <a href = "../index.php?action=reg" class="nav-link active" aria-current="page" href="#">Регистрация</a>
@@ -127,7 +127,7 @@ abstract class View
               </ul>  ';}
             if (isset($_SESSION["id"]))
             {echo '
-              <ul class="navbar-nav me-auto mb-2 mb-md-0">                
+              <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
                   <a href = "../index.php?action=cabinet" class="nav-link active" aria-current="page" href="#">Кабинет</a>
                 </li>
@@ -138,5 +138,25 @@ abstract class View
           </div>
         </nav>
         ';
+    }*/
+    function navbar()
+    {
+        echo '
+        <nav class="navbar navbar-dark bg-dark " style="display: block">
+         
+            <a class="navbar-brand "  href="../">Главная</a>';
+        if (!isset($_SESSION["id"]))
+            echo '<a href = "../index.php?action=enter" class="navbar-brand">Вход</a>';
+        if (isset($_SESSION["id"]))
+            echo '<a href = "../index.php?action=cabinet" class="navbar-brand">Кабинет</a>';
+
+
+        echo '
+            
+          </div>
+        </nav>
+        ';
+
+
     }
 }

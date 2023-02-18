@@ -8,6 +8,7 @@ class Cours extends View
         $this->including($cours,$topic);
 
         $this->navbar();
+
         $this->list_chapters($cours,$topic);
     }
     function including($cours,$topic)
@@ -68,22 +69,38 @@ class Cours extends View
         }
 
     }
+    function breadcrumb($cours,$top="")
+    {
+        $result='';
 
+        $result.='<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'8\'%3E%3Cpath d=\'M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z\' fill=\'%236c757d\'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">';
+
+        $result.='<ol class="breadcrumb">';
+
+        $result.=' <li class="breadcrumb-item my-1"><a href="../">Главная</a></li>';
+        $result.='  <li class="breadcrumb-item my-1"><a href="../'.$cours->translit.'">'.$cours->name.'</a></li>';
+        if ($top!="")
+            $result.='  <li class="breadcrumb-item my-1"><a href="../'.$cours->translit.'/'.$top->translit.'">'.$top->name.'</a></li>';
+        $result.='</ol>';
+        $result.='</nav>';
+
+        echo $result;
+    }
     function menu($cours)
     {
         echo '<div class="row">';
         echo "<div class=' col-lg-3 col-md-4 col-12 '>";
-        echo '<h2 style="font-weight:bold" class="m-4">Курс: '.$cours->name.'</h2>';
+        //echo '<h2 style="font-weight:bold" class="m-4">Курс: '.$cours->name.'</h2>';
 
         foreach ($cours->chapters as $chapter)
         {
 
             echo '<div class="list-group d-none d-md-block">';
-            echo '<div class="list-group-item list-group-item-action active" aria-current="true">';
+            echo '<div class="list-group-item list-group-item-info" aria-current="true">';
             echo '<h3 style="font-weight:bold" class="m-lg-3 p-0">'.$chapter->name.'</h3></div>';
             foreach ($chapter->topics as $topic)
             {
-                echo '<a class="list-group-item list-group-item-action" href="../index.php?action=open_topic&topic_id='.$topic->id.'&cours_id='.$cours->id.'">';
+                echo '<a class="list-group-item list-group-item-action" href="../'.$cours->translit.'/'.$topic->translit.'">';
                 echo '<h3 style="font-weight:bold" class="m-lg-3">'.$topic->name.'</h3></a>';
 
             }
@@ -93,7 +110,7 @@ class Cours extends View
         }
 
 
-        echo '
+        /*echo '
             <div class="dropdown d-block d-md-none w-100">
               <button class="btn btn-primary btn-lg dropdown-toggle w-100"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span  style="font-weight:bold" >  Выберите тему </span>
@@ -116,18 +133,29 @@ class Cours extends View
         }
 
         echo '</div>';
-        echo '</div>';
+        echo '</div>';*/
 
         echo "</div>";
     }
-
+    function button_back($cours="",$top="")
+    {
+        $href="../";
+        if($top!="")
+            $href="../".$cours->translit;
+        $result='';
+        $result.='<a class="mx-2" style="float: left" href="'.$href.'"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+    </svg></a>';
+        echo $result;
+    }
     function list_chapters($cours,$top="")
     {
         $user = new User($_SESSION["id"]);
 
         echo '<div class="row">';
-        echo '<div class="mx-auto  col-xl-8 col-lg-8 col-md-10 ">';
 
+        echo '<div class="mx-auto  col-xl-8 col-lg-8 col-md-10 ">';
+        $this->breadcrumb($cours,$top);
         $this->menu($cours);
 
         echo "<div id ='test' class='col-lg-9 col-md-8 col-12'>";
@@ -135,6 +163,7 @@ class Cours extends View
         echo "<section itemscope itemtype=\"http://schema.org/Article\">";
         if ($top!="" && $top!=null )
         {
+            $this->button_back($cours,$top);
             echo '<h1 style="font-weight:bold"   itemprop="headline" class="m-4">Тема: '.$top->name.'</h1><br>';
             $this->hint($user,$cours);
 
@@ -191,23 +220,15 @@ class Cours extends View
 
 
             }
-            if(!$user->iSsubscrib($cours->id))
-            {
-                $this->button_subscrid($cours);
-            }
-            if($user->iSsubscrib($cours->id))
-                echo '<button id="'.$top->id.'" class=" btn btn-primary btn-lg" onclick="TestController.onload(this)"> <span  style="font-weight:bold" >Пройти тест</span></button>';
 
+            //echo '<button id="'.$top->id.'" class=" btn btn-primary btn-lg" onclick="TestController.onload(this)"> <span  style="font-weight:bold" >Пройти тест</span></button>';
+            $this->button_subscrid($cours,$top->id);
             echo "</div>";
         }
         else
         {
             echo $this->description($cours);//описание курса
 
-            if(!$user->iSsubscrib($cours->id))
-            {
-                $this->button_subscrid($cours);
-            }
         }
 
 
@@ -230,41 +251,73 @@ class Cours extends View
         echo "</script>";
 
     }
-    public function button_subscrid($cours)
+    public function button_subscrid($cours,$top_id)
     {
         $_SESSION["back"]=$_SERVER['REQUEST_URI'];
-        $_SESSION["cours"]=$cours->id;
-        echo '<form method="POST" enctype="multipart/form-data" action="../index.php?action=subscrib">
-                <input type="hidden" name="cours_id" value="'.$cours->id.'">
+
+
+        echo '
+                <input type="hidden" id="cours_id" value="'.$cours->id.'">
+                <input type="hidden" id="topic_id" value="'.$top_id.'">
                 
-                <button class=" btn  btn-primary btn-lg " type="submit"> <span  style="font-weight:bold" >Подписаться</span></button>                
-                </form>';
+                <button onclick="TestController.onload(this)" id="'.$top_id.'" class=" btn  btn-primary btn-lg " type="submit"> <span  style="font-weight:bold" >Пройти тест</span></button>                
+               ';
+
     }
     public function description($cours)
     {
-        $content='<h3 style="font-weight:bold" class="m-4">Описание курса</h3>';
-        $content.='<div class="card mb-3" style="max-width: 540px;">';
+        $this->button_back();
+        $content='<h1 style="font-weight:bold" class="m-4">Описание курса</h1>';
+
+        $content.='<div class="card mb-3" style="">';
+        $content.='<a class="link-dark" style="text-decoration:none;" href="../'.$cours->translit.'/'.$cours->chapters[0]->topics[0]->translit.'">';
         $content.='  <div class="row g-0">';
-        $content.='    <div class="col-md-4">';
+        $content.='    <div class="col-4">';
         $content.='      <img src="'.$cours->picture.'" class="img-fluid rounded-start" alt="...">';
         $content.='    </div>';
-        $content.='    <div class="col-md-8">';
+        $content.='    <div class="col-8">';
         $content.='      <div class="card-body">';
-        $content.='        <h4 style="font-weight:bold" class="card-title">'.$cours->name.'</h4>';
+        $content.='        <h2 style="font-weight:bold" class="card-title">'.$cours->name.'</h2>';
         $content.='        <p class="card-text">'.$cours->description.'</p>';
-       // $content.='        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>';
         $content.='      </div>';
+
         $content.='    </div>';
+
         $content.='  </div>';
+
+        $content.='</a>';
         $content.='</div>';
+
+        $content.=$this->list_for_description($cours);
         return $content;
+    }
+
+    public function list_for_description($cours)
+    {
+        $result='';
+        $result.='<h2 style="font-weight:bold" class="m-4 d-block d-md-none">Основные темы</h2>';
+        foreach ($cours->chapters as $chapter)
+        {
+
+            $result.='<ul class="list-group d-block d-md-none">';
+            $result.= '<li style="font-weight:bold" class="list-group-item list-group-item-info">'.$chapter->name.'  </li>';
+            foreach ($chapter->topics as $topic)
+            {
+                $result.= '<a class="list-group-item list-group-item-action"  href="../'.$cours->translit.'/'.$topic->translit.'">'.$topic->name.'</a>';
+
+            }
+
+            $result.=  "</ul>";
+
+        }
+        return $result;
     }
     public function hint($user, $cours)
     {
-        if(!$user->iSsubscrib($cours->id))
+        if(!isset($_SESSION["id"]))
         {
             echo '<div class="alert alert-primary" role="alert">
-                Чтобы пройти тест подпишитесь на курс 
+                Чтобы пройти тест авторизируйтсь 
             </div>';
         }
         else

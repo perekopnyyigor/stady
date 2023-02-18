@@ -3,7 +3,6 @@ class Cabinet
 {
     menu_arr = [
         {"name":"Cоздать курс","function":"CabinetController.createCours()"},
-
         {"name":"Обучение","function":"CabinetController.boxes()"},
         {"name":"Календарь","function":"CabinetController.calendar()"}
         ];

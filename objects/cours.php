@@ -52,6 +52,7 @@ class CoursObj
 
         $this->id=$id;
         $this->name=database::select_one_stat("name","cours","WHERE id ='".$id."'");
+        $this->translit=database::select_one_stat("translit","cours","WHERE id ='".$id."'");
         $this->description=database::select_one_stat("description","cours","WHERE id ='".$id."'");
         $this->user=database::select_one_stat("user","cours","WHERE id ='".$id."'");
         $this->picture=database::select_one_stat("picture","cours","WHERE id ='".$id."'");

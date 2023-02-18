@@ -32,7 +32,7 @@ class Lesson
         $period = database::select_one_stat("period","lesson","WHERE id ='".$id."'");
 
         $now = date('Y-m-d');
-
+/*
         if($date == "" || $date==null)
         {
 
@@ -62,7 +62,7 @@ class Lesson
            }
 
         }
-        else
+        else*/
         {
             if(($next_date===$now) || ($now>$next_date) )
             {
@@ -73,8 +73,10 @@ class Lesson
                 }
                 elseif ($data->greed < 50)
                 {
-                    $period--;
-                    echo "Вы не прошли тест, повторение пересено на более ближний период. Результат: ".$data->greed;
+                    if($period!=0)
+                        $period--;
+
+                    echo "Вы не прошли тест, период повторения уменьшился. Результат: ".$data->greed;
                 }
                 else
                 {

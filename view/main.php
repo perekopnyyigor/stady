@@ -50,8 +50,11 @@ class MainPage extends View
         echo '<div class="row px-4 mt-5">';
         foreach ($courses as $cours)
         {
+            echo '<div class="mx-auto  col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-11 mt-2 ">';
+            $this->description($cours);
+            echo '</div>';
+/*
 
-            echo '<div class="mx-auto  col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-11 mt-4 ">';
 
             echo '<a class="link-dark" style="text-decoration:none;" href="../index.php?action=open_cours&cours_id='.$cours->id.'">';
             echo '<div class="shadow card   p-4 border " >';
@@ -61,10 +64,29 @@ class MainPage extends View
             //echo '<a class="btn btn-primary" href="../index.php?action=open_cours&cours_id='.$cours->id.'">Пререйти</a>';
             echo '</div>';
             echo '</a>';
-            echo '</div>';
-
+            echo '</div>';*/
         }
         echo '</div>';
 
+    }
+    public function description($cours)
+    {
+        $content='<a class="link-dark" style="text-decoration:none;" href="../'.$cours->translit.'">';
+        $content.='<div class="shadow card   p-1 border " >';
+        $content.='  <div class="row ">';
+        $content.='    <div class="col-4">';
+        $content.='      <img src="'.$cours->picture.'" style="height:100px; width:125px" alt="...">';
+        $content.='    </div>';
+        $content.='    <div class=" mx-auto col-6">';
+        $content.='      <div class="  card-body p-1 m-1">';
+        $content.='        <h3 style="font-weight:bold" class="card-title">'.$cours->name.'</h3>';
+        $content.='        <p class="card-text">'.$cours->description.'</p>';
+        // $content.='        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>';
+        $content.='      </div>';
+        $content.='    </div>';
+        $content.='  </div>';
+        $content.='</div>';
+        $content.='</a>';
+        echo $content;
     }
 }
