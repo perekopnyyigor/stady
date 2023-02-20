@@ -19,7 +19,7 @@ class Cabinet extends View
         echo '<div class="row">';
 
         echo "<div class=' col-lg-3 col-md-4 col-12 '>";
-        echo '<h1 style="font-weight:bold" class="m-lg-3">Кабинет</h1>';
+        //echo '<h1 style="font-weight:bold" class="m-lg-3">Кабинет</h1>';
         echo "<div id='menu' ></div>";
         echo '</div>';
 
@@ -29,8 +29,8 @@ class Cabinet extends View
         echo '</div>';
         echo'                     
                <script >
-               let cabinetController = new CabinetController();
-               cabinetController.onload();
+               
+               CabinetController.onload();
                 </script>
       ';
     }

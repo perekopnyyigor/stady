@@ -120,8 +120,15 @@ class Lesson
         $this->date_next = database::select_one_stat("date_next", "lesson", "Where id=".$id);
         $this->date = database::select_one_stat("date", "lesson", "Where id=".$id);
         $this->period = database::select_one_stat("period", "lesson", "Where id=".$id);
+
         $this->topic_name = database::select_one_stat("name", "topic", "Where id=".$this->topic);
+        $this->topic_translit = database::select_one_stat("translit", "topic", "Where id=".$this->topic);
         $this->chapter = database::select_one_stat("chapter", "topic", "Where id=".$this->topic);
+
+        $this->chapter_name= database::select_one_stat("name", "chapter", "Where id=".$this->chapter);
         $this->cours = database::select_one_stat("cours", "chapter", "Where id=".$this->chapter);
+
+        $this->cours_name = database::select_one_stat("name", "cours", "Where id=".$this->cours);
+        $this->cours_translit = database::select_one_stat("translit", "cours", "Where id=".$this->cours);
     }
 }

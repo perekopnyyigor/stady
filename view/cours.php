@@ -137,6 +137,7 @@ class Cours extends View
 
         echo "</div>";
     }
+
     function button_back($cours="",$top="")
     {
         $href="../";
@@ -144,10 +145,11 @@ class Cours extends View
             $href="../".$cours->translit;
         $result='';
         $result.='<a class="mx-2" style="float: left" href="'.$href.'"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-    </svg></a>';
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg></a>';
         echo $result;
     }
+
     function list_chapters($cours,$top="")
     {
         $user = new User($_SESSION["id"]);
@@ -155,11 +157,11 @@ class Cours extends View
         echo '<div class="row">';
 
         echo '<div class="mx-auto  col-xl-8 col-lg-8 col-md-10 ">';
-        $this->breadcrumb($cours,$top);
+        ;
         $this->menu($cours);
 
         echo "<div id ='test' class='col-lg-9 col-md-8 col-12'>";
-
+        $this->breadcrumb($cours,$top);
         echo "<section itemscope itemtype=\"http://schema.org/Article\">";
         if ($top!="" && $top!=null )
         {
@@ -169,22 +171,46 @@ class Cours extends View
 
             for($i=0;$i<count($top->cards);$i++)
             {
+                echo ' <div class="card shadow mb-3">';
+                echo ' <h2 itemprop="alternativeHeadline" style="font-weight:bold" class="mx-3" class="card-title">'.$top->cards[$i]->name.'</h2>';
+                echo '  <div class="card-body ">';
 
+                if($top->cards[$i]->picture!=null)
+                {
+                    //echo '<img width="200px" src="'.$top->cards[$i]->picture.'">';/*
+                    for($j=0;$j<count($top->cards[$i]->picture);$j++)
+                    {
+                        echo '<img  width="200px" src="'.$top->cards[$i]->picture[$j].'">';
+                    }
+                }
+
+                echo ' <div itemprop="articleBody class="card-text" >'.$top->cards[$i]->task.'</div>';
+                echo '<br>';
+                echo ' <div itemprop="articleBody" class="card-text" >';
                 if($top->cards[$i]->type == 2)
+                    echo '   <formula>'.$top->cards[$i]->content.'</formula>';
+                else if($top->cards[$i]->type == 1)
+                    echo $top->cards[$i]->content;
+                else if($top->cards[$i]->type == 3)
+                    echo "<pre><code id='view' itemprop='articleBody' class='.$top->cards[$i]->language.' >".$top->cards[$i]->content."</code></pre>";
+
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+               /* if($top->cards[$i]->type == 2)
                 {
 
                     echo ' <div class="card shadow mb-3">';
-                    echo '  <div class="card-header"><h2 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3" >'.$top->cards[$i]->name.'</h2></div>';
+                    echo '  <div class="card-header"><h2 style="font-weight:bold" class="m-lg-3" >'.$top->cards[$i]->name.'</h2></div>';
                     echo '  <div class="card-body ">';
-                    echo ' <div class="card-text" itemprop="articleBody">'.$top->cards[$i]->task.'</div>';
+                    echo ' <div class="card-text" >'.$top->cards[$i]->task.'</div>';
                      //echo '   <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
-                     echo '   <formula class="card-text" itemprop="articleBody">'.$top->cards[$i]->content.'</formula>';
+                     echo '   <formula>'.$top->cards[$i]->content.'</formula>';
                      echo ' </div>';
                     echo '</div>';
                 }
                 else if($top->cards[$i]->type == 3)
                 {
-
 
                     echo ' <div class="card shadow mb-3">';
                     echo '  <div class="card-header"><h2 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h2></div>';
@@ -206,17 +232,17 @@ class Cours extends View
                             //echo '<img width="200px" src="'.$top->cards[$i]->picture.'">';/*
                             for($j=0;$j<count($top->cards[$i]->picture);$j++)
                             {
-                                echo '<img itemprop="image" width="200px" src="'.$top->cards[$i]->picture[$j].'">';
+                                echo '<img  width="200px" src="'.$top->cards[$i]->picture[$j].'">';
                             }
                         }
-                       echo ' <p class="card-text" itemprop="articleBody">'.$top->cards[$i]->task.'<br>';
+                       echo ' <p class="card-text" >'.$top->cards[$i]->task.'<br>';
                         echo $top->cards[$i]->content.'</p>';
                       echo '</div>';
                     echo ' </div>';
 
 
 
-                }
+                }*/
 
 
             }
@@ -242,11 +268,11 @@ class Cours extends View
                         for (let i = 0; i < formula.length; i++)
                         {
                             let text = formula[i].innerHTML;
-                            text = text.replace("slash","\\\\");
+                            
                             katex.render(text, formula[i]);
                         }
                        hljs.highlightAll();     
-                        hljs.highlightAll(); 
+                      
                     ';
         echo "</script>";
 

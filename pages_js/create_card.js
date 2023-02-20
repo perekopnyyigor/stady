@@ -123,13 +123,14 @@ class CreateCard
         content +='<input style="width: 80%;" id="card_name">';
         content+='<p>Задание</p>';
         content +='<textarea id="task" style="width: 80%; height: 100px"></textarea>';
+
         content+='<p>Содержание</p>';
         content +='<textarea id="card_content" style="width: 80%; height: 100px" width="100%"> </textarea>';
         content +='<br>';
         content +='<input id="topic_id" type="hidden" value="'+id+'">';
-        content +='<button onclick="CreateCardController.createCard()">Добавить</button>';
-        content += '<button onclick="CreateCardController.click()">Выделить</button>';
-        content += '<button onclick="CreateCardController.check()">check</button>';
+        content +='<button class="btn btn-primary" onclick="CreateCardController.createCard()">Добавить</button>';
+
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.check()">Проверка</button>';
         content +='<input type="file" name="file" onchange="CreateCardController.addImg()">';
 
         content +='</div>';
@@ -157,9 +158,16 @@ class CreateCard
         content +='<textarea oninput="CreateCardController.update()" id="card_content" style="width: 80%; height: 300px">'+card.content_mark+'</textarea>';
         content +='<br>';
         content +='<input id="card_id" type="hidden" value="'+card.id+'">';
-        content +='<button onclick="CreateCardController.redactCard()">Обновить</button>';
-        content += '<button onclick="CreateCardController.click()">Выделить</button>';
-        content += '<button onclick="CreateCardController.check()">check</button>';
+        content +='<button class="btn btn-primary" onclick="CreateCardController.redactCard()">Обновить</button>';
+
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(1)">Выделить</button>';
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(2)">Формула</button>';
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(3)">Р. Формулу</button>';
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(4)">Р. Строку</button>';
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(5)">Удалить</button>';
+
+        content += '<button class="btn btn-primary" onclick="CreateCardController.check()">Проверить</button>';
+
         content +='<input type="file" name="file" onchange="CreateCardController.addImg()">';
 
 

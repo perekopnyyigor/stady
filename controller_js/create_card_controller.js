@@ -237,17 +237,44 @@ class CreateCardController
         CardCode.onload(id);
         InstrumentController.onload();
     }
-    static click()
+    static replaceAll(string,search,replace)
+    {
+        return string.toString().split(search).join(replace);
+    }
+    /*
+    * 1-разделить
+    * 2-формула
+    * 3-разделить формулу
+    * 4-разделить предложение
+    * 5-удалить метки
+    * */
+    static click(arg)
     {
         let select = window.getSelection();
         let redact = document.getElementById("card_content");
         let startPos = redact .selectionStart;
         let endPos = redact .selectionEnd;
         let content=redact.value;
-
+        let result='';
         let srt1 = content.substring(0,startPos);
         let srt2 = content.substring(endPos , content.length);
-        let result = srt1 + "{m}"+select +"{m}"+srt2;
+        if(arg==1)
+            result = srt1 + "{m}"+select +"{m}"+srt2;
+        if(arg==2)
+            result = srt1 + "<formula>"+select +"</formula>"+srt2;
+        if(arg==3)
+            result = srt1 + "</formula>{m}<formula>"+select +"{m}"+srt2;
+        if(arg==4)
+        {
+            let str =CreateCardController.replaceAll(select," ","{m} {m}");
+            result = srt1 + "{m}"+  str +"{m}"+srt2;
+        }
+        if(arg==5)
+        {
+            let str =CreateCardController.replaceAll(select,"{m}","");
+            result = srt1+str+srt2;
+        }
+
         redact.value=result ;
     }
     static check()
