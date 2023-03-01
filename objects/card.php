@@ -72,11 +72,11 @@ class Card
 
         $data->card_mark=str_replace("\\","slash", $data->card_mark);
         $data->task=str_replace("\\","slash", $data->task);
-        $card_text=str_replace("{m}","", $data->card_mark);
+
 
         $sql = "UPDATE card SET 
         name = '$data->card_name', 
-        content = '$card_text',
+        content = '$data->card_content',
         content_mark = '$data->card_mark',
         hint = '$data->hint' ,
         language = '$data->language',

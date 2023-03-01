@@ -131,4 +131,14 @@ class Lesson
         $this->cours_name = database::select_one_stat("name", "cours", "Where id=".$this->cours);
         $this->cours_translit = database::select_one_stat("translit", "cours", "Where id=".$this->cours);
     }
+    public function find_try()
+    {
+        $this->try = database::select_stat("id", "try", "Where lesson=".$this->id);
+        $tryes = [];
+        for($i=0;$i<count($this->try);$i++)
+        {
+            $tryes[]=new Try_($this->try[$i]);
+        }
+        return $tryes;
+    }
 }

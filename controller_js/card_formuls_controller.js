@@ -34,11 +34,44 @@ class CardFormulsController
     static redactCard()
     {
 
-        let data = CardFormula.card_change_data();
+       /* let data = CardFormula.card_change_data();
 
         Model.redact_card(data);
 
-        CreateCardController.reload(CreateCard.cours_id);
+        CreateCardController.reload(CreateCard.cours_id);*/
+        let name=document.getElementById("card_name").value;
+        let text_mark=document.getElementById("card_content").value;
+        let task=document.getElementById("task").value;
+
+        text_mark=text_mark.split('\\').join("slash");
+        task=task.split('\\').join("slash");
+
+        let card_content=text_mark.split('{m}')
+        for (let i = 0;i<card_content.length;i++)
+        {
+            if(card_content[i].includes("{t}"))
+            {
+                let content =card_content[i].split("{t}");
+                card_content[i]=content[0];
+
+            }
+        }
+        card_content=card_content.join("");
+
+        let id = document.getElementById("card_id").value;
+        let data={
+            id:id,
+            card_name:name,
+            card_content:card_content,
+            card_mark:text_mark,
+            task:task
+
+        };
+
+        let data_json =  JSON.stringify(data);
+        Model.ajax(data_json,"redact_card")
+
+        CreateCardController.onload(CreateCardController.cours_id);
 
     }
     static click()

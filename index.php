@@ -6,6 +6,7 @@ require_once "view/reg.php";
 require_once "view/cabinet.php";
 require_once "view/cours.php";
 
+
 require_once "objects/user.php";
 require_once "objects/chapter.php";
 require_once "objects/topic.php";
@@ -13,6 +14,7 @@ require_once "objects/card.php";
 require_once "objects/lesson.php";
 require_once "objects/cours.php";
 require_once "objects/sitemap.php";
+require_once "objects/try.php";
 
 $main_page = new MainPage();
 $enter_page = new Enter();
@@ -93,8 +95,10 @@ switch ($_GET["action"])
         break;
     case "find_courses":
     case "find_chapters":
+        $id=json_decode($_POST["data_json"])->id;
         database::connect_stat();
         $user = new User($_SESSION["id"]);
+        $user = new User($id);
         echo $user->find_courses();
         break;
     case "add_topic":
@@ -141,10 +145,12 @@ switch ($_GET["action"])
         $cours_page->main($cours,$topic);
         break;
     case "subscrib":
+
         database::connect_stat();
-        $id=$_SESSION["id"];
+        $id=$cours = json_decode($_POST["data_json"])->user_id;
         $cours = json_decode($_POST["data_json"])->cours_id;
-        echo $id."/".$cours;
+
+        echo "asdfs".$id."/".$cours;
         $user = new User($id);
         if (!$user->iSsubscrib($cours))
             $user->subscrib($cours);
@@ -156,9 +162,9 @@ switch ($_GET["action"])
 
         $topic_id=json_decode($_POST["data_json"])->topic_id;
 
-
         $user = new User($user_id);
         $user->lesson($topic_id);
+
 
         break;
     case "add_try":
@@ -246,5 +252,16 @@ switch ($_GET["action"])
         $sitemap = new Sitemap();
         $sitemap->main();
         break;
+    case "find_try":
+        database::connect_stat();
+        $lesson_id=json_decode($_POST["data_json"])->lesson_id;
+        $lesson = new Lesson($lesson_id);
+        $data = $lesson->find_try();
+        echo json_encode($data);
+        break;
+    default:
+        echo "sasdaf";
+
+
 
 }

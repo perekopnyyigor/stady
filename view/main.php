@@ -5,13 +5,13 @@ class MainPage extends View
 {
     function main($courses,$user=false)
     {
-        $this->including();
+        $this->including($courses);
 
         $this->navbar($user);
         Carosel::main();
         $this->list_chapters($courses);
     }
-    function including()
+    function including($courses)
     {
 
         echo '
@@ -21,9 +21,11 @@ class MainPage extends View
        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.bundle.min.js"></script>
-        <meta name="google-site-verification" content="BH4EEAs4PRSW5c0Wbr3tiUtY_KxAF-c" />';
-
+        <meta name="google-site-verification" content="BH4EEAs4PRSW5c0Wbr3tiUtY_KxAF-c" />
+        <link rel="canonical" href="https://studycard.ru" />';
         $this->count();
+        echo '<!-- разметка курсов -->';
+        echo $this->schema_list($courses);
         echo '<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
    
 
@@ -42,6 +44,53 @@ class MainPage extends View
                 <link rel="stylesheet" href="../css/style.css">
        </head>
         ';
+    }
+    function schema_list($courses)
+    {
+        $content='
+        <script type="application/ld+json">
+       {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        ';
+        $count=1;
+        foreach ($courses as $cours)
+        {
+            $comma=true;
+            if (count($courses)==$count)
+                $comma=false;
+            $content.=$this->schema_cours($cours,$count,$comma);
+            $count++;
+        }
+
+        $content.=' ]}</script>';
+
+        return $content;
+
+    }
+    function schema_cours($cours,$count,$comma)
+    {
+        $content='
+        {
+          "@type": "ListItem",
+          "position": '.$count.',
+          "item": {
+            "@type": "Course",
+            "url":"https://studycard.ru/'.$cours->translit.'",
+            "name": "'.$cours->name.'",
+            "description": "'.$cours->description.'",
+            "provider": {
+              "@type": "Organization",
+              "name": "studycard",
+              "sameAs": "https://studycard.ru"
+           }
+          }
+        }
+        ';
+        if ($comma)
+            $content.=',';
+        return $content;
     }
 
     function list_chapters($courses)

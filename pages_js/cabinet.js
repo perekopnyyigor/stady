@@ -3,8 +3,9 @@ class Cabinet
 {
     static menu_arr = [
         {"name":"Cоздать курс","function":"CabinetController.createCours()","description":""},
-        {"name":"Пройденные темы","function":"CabinetController.boxes()","description":"Здесь отображается пройденные темы и периоды между повторениям"},
-        {"name":"Календарь","function":"CabinetController.calendar()","description":"Здесь отображается расписание повторений"}
+        //{"name":"Пройденные темы","function":"CabinetController.boxes()","description":"Здесь отображается пройденные темы и периоды между повторениям"},
+        {"name":"Календарь","function":"CabinetController.calendar()","description":"Здесь отображается расписание повторений"},
+        {"name":"Прогресс","function":"CabinetController.progress()","description":"Здесь отображается расписание повторений"}
         ];
 
     static menu_start()

@@ -19,11 +19,13 @@ class TestController
         {
 
             let data_subscript={
-                cours_id:document.getElementById("cours_id").value,
-                user_id:localStorage.getItem("id")
+                user_id:localStorage.getItem("id"),
+                cours_id:document.getElementById("cours_id").value
+
             };
             let data_subscript_js = JSON.stringify(data_subscript);
-            Model.ajax(data_subscript_js,"../index.php?action=subscrib");
+
+           Model.ajax(data_subscript_js,"subscrib");
 
 
             let data_js = Model.get_topic(obj.id);
@@ -89,13 +91,24 @@ class TestController
 
         let massiv_value = Test.contentArr[TestController.count_variant];
         let inner_value = Test.contentArr[i];
+        let massiv_type = Test.contentType[TestController.count_variant];
+        let inner_type = Test.contentType[i];
+
 
        // massiv_value = TestController.replaceAll(massiv_value,"\\","");
-        //alert(inner_value+" "+massiv_value);
-        if(inner_value == massiv_value)
+        alert(inner_value+" "+massiv_value);
+        if((inner_value == massiv_value)||((inner_type == massiv_type)&&(inner_type!=null)))
         {
+            if((inner_type == massiv_type)&&(inner_type!=null)&&(inner_value != massiv_value))
+            {
+                let str = Test.contentArr[TestController.count_variant]
+                Test.contentArr[TestController.count_variant] =  Test.contentArr[i];
+                Test.contentArr[i] =str;
+            }
+
             TestController.count_variant+=2;
             TestController.count_hint++;
+
 
             document.getElementById("result").innerHTML=Test.res(TestController.count_variant);
             document.getElementById("variant").innerHTML=Test.variant(TestController.count_variant);
@@ -128,7 +141,7 @@ class TestController
     {
 
         let topic_id = TestController.data.id;
-        let degree = (TestController.all_answers-TestController.degree)/TestController.all_answers*100;
+        let degree =Math.round( (TestController.all_answers-TestController.degree)/TestController.all_answers*100);
         let data_lesson={
             topic_id:topic_id,
             user_id:localStorage.getItem("id"),

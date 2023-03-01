@@ -56,16 +56,46 @@ class Cours extends View
     }
     function seo($cours,$top)
     {
+
         if($top!=null)
         {
             echo '<title>'.$top->name.'</title>';
             echo '<meta name="description" content="'.$top->name.' тестирование и практика">';
-
+            echo ' <link rel="canonical" href="https://studycard.ru/'.$cours->translit.'/'.$top->translit.'">';
         }
         else
         {
             echo '<title>'.$cours->name.'</title>';
+            echo ' <link rel="canonical" href="https://studycard.ru/'.$cours->translit.'" >';
             echo '<meta name="description" content="'.$cours->description.'">';
+        }
+        echo '<script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "'.$cours->name.'",
+            "description": "'.$cours->description.'",
+            "provider": {
+            "@type": "Organization",
+            "name": "studycard.ru",
+            "sameAs": "https://studycard.ru"
+          }
+        }
+        </script>';
+        $picture='';
+
+            if ($top->cards[0]->picture!=null)
+                $picture=$top->cards[0]->picture[0];
+        $picture=str_replace("../","https://studycard.ru/",$picture);
+
+        if($top!=null) {
+            echo '
+        <meta property="og:title" content="'.$top->name.'"/>
+        <meta property="og:description" content="'.$top->name.' тестирование и практика"/>
+        <meta property="og:image" content="'.$picture.'"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:url" content= "https://studycard.ru/'.$cours->translit.'/'.$top->translit.'" />
+        ';
         }
 
     }
@@ -75,12 +105,21 @@ class Cours extends View
 
         $result.='<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'8\'%3E%3Cpath d=\'M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z\' fill=\'%236c757d\'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">';
 
-        $result.='<ol class="breadcrumb">';
+        $result.='<ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
-        $result.=' <li class="breadcrumb-item my-1"><a href="../">Главная</a></li>';
-        $result.='  <li class="breadcrumb-item my-1"><a href="../'.$cours->translit.'">'.$cours->name.'</a></li>';
+        $result.=' <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item my-1">';
+        $result.='<a href="../" itemprop="item" ><span itemprop="name">Главная</span><meta itemprop="position" content="0"></a></li>';
+
+        $result.='  <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item my-1">';
+         $result.='<a itemprop="item" href="../'.$cours->translit.'"><span itemprop="name">'.$cours->name.'</span><meta itemprop="position" content="1"></a></li>';
+
         if ($top!="")
-            $result.='  <li class="breadcrumb-item my-1"><a href="../'.$cours->translit.'/'.$top->translit.'">'.$top->name.'</a></li>';
+        {
+            $result.='  <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item my-1">';
+            $result.='<a itemprop="item" href="../'.$cours->translit.'/'.$top->translit.'"><span itemprop="name">'.$top->name.'</span><meta itemprop="position" content="2"></a></li>';
+
+        }
+
         $result.='</ol>';
         $result.='</nav>';
 
@@ -180,11 +219,11 @@ class Cours extends View
                     //echo '<img width="200px" src="'.$top->cards[$i]->picture.'">';/*
                     for($j=0;$j<count($top->cards[$i]->picture);$j++)
                     {
-                        echo '<img  width="200px" src="'.$top->cards[$i]->picture[$j].'">';
+                        echo '<img alt="'.$top->name.'" title="'.$top->name.'" width="200px" src="'.$top->cards[$i]->picture[$j].'">';
                     }
                 }
 
-                echo ' <div itemprop="articleBody class="card-text" >'.$top->cards[$i]->task.'</div>';
+                echo ' <div itemprop="articleBody" class="card-text" >'.$top->cards[$i]->task.'</div>';
                 echo '<br>';
                 echo ' <div itemprop="articleBody" class="card-text" >';
                 if($top->cards[$i]->type == 2)
@@ -192,7 +231,7 @@ class Cours extends View
                 else if($top->cards[$i]->type == 1)
                     echo $top->cards[$i]->content;
                 else if($top->cards[$i]->type == 3)
-                    echo "<pre><code id='view' itemprop='articleBody' class='.$top->cards[$i]->language.' >".$top->cards[$i]->content."</code></pre>";
+                    echo "<pre><code id='view' itemprop='articleBody' class='".$top->cards[$i]->language."' >".$top->cards[$i]->content."</code></pre>";
 
                 echo '</div>';
                 echo '</div>';

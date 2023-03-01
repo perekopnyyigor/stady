@@ -149,10 +149,26 @@ class CreateCardController
         let text_mark=document.getElementById("card_content").value;
         let task=document.getElementById("task").value;
 
+        text_mark=text_mark.split('\\').join("slash");
+        task=task.split('\\').join("slash");
+
+        let card_content=text_mark.split('{m}')
+        for (let i = 0;i<card_content.length;i++)
+        {
+            if(card_content[i].includes("{t}"))
+            {
+                let content =card_content[i].split("{t}");
+                card_content[i]=content[0];
+
+            }
+        }
+        card_content=card_content.join("");
+
         let id = document.getElementById("card_id").value;
         let data={
             id:id,
             card_name:name,
+            card_content:card_content,
             card_mark:text_mark,
             task:task
 
@@ -192,8 +208,18 @@ class CreateCardController
         let task_content = document.getElementById("task").value;
         let name = document.getElementById("card_name").value;
         let card_content = document.getElementById("card_content").value;
-        card_content=card_content.split('{m}').join(" ");
 
+        card_content=card_content.split('{m}')
+        for (let i = 0;i<card_content.length;i++)
+        {
+            if(card_content.includes("{t}"))
+            {
+                let content =card_content[i].split("{t}");
+                card_content[i]=content[0];
+
+            }
+        }
+        card_content=card_content.join(" ");
         document.getElementById("result").innerHTML="";
         document.getElementById("result").innerHTML=CreateCard.res(CreateCardController.contentArr,0);
 
@@ -258,12 +284,13 @@ class CreateCardController
         let result='';
         let srt1 = content.substring(0,startPos);
         let srt2 = content.substring(endPos , content.length);
+
         if(arg==1)
             result = srt1 + "{m}"+select +"{m}"+srt2;
         if(arg==2)
             result = srt1 + "<formula>"+select +"</formula>"+srt2;
         if(arg==3)
-            result = srt1 + "</formula>{m}<formula>"+select +"{m}"+srt2;
+            result = srt1 + "{m}<formula>"+select +"</formula>{m}"+srt2;
         if(arg==4)
         {
             let str =CreateCardController.replaceAll(select," ","{m} {m}");
@@ -272,6 +299,24 @@ class CreateCardController
         if(arg==5)
         {
             let str =CreateCardController.replaceAll(select,"{m}","");
+            result = srt1+str+srt2;
+        }
+        if(arg==6)
+        {
+            let str =CreateCardController.replaceAll(select,"<li>","<li>{m}");
+            str =CreateCardController.replaceAll(str,"-","{m} -");
+            result = srt1+str+srt2;
+        }
+        if(arg==7)
+        {
+            let str =CreateCardController.replaceAll(select,"</li>","{m}</li>");
+            str =CreateCardController.replaceAll(str,"-","- {m}");
+            result = srt1+str+srt2;
+        }
+        if(arg==8)
+        {
+            let str =CreateCardController.replaceAll(select,"$","");
+            str =CreateCardController.replaceAll(str,"frac","cfrac");
             result = srt1+str+srt2;
         }
 

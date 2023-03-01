@@ -55,4 +55,8 @@ class CabinetController
 
         Calendar.onload(data);
     }
+    static progress()
+    {
+        Progress_controller.onload();
+    }
 }

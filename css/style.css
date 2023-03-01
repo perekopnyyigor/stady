@@ -143,5 +143,34 @@ h6
 {
     font-size: 8px;
 }
+.my_btn
+{
+    border: none;
+    border-radius: 5px;
+    background-color:#337ab7;
+    color:white;
+    box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.2);
+    margin:5px;
+    padding:10px;
+}
+.right:active
+{
 
+    background-color: seagreen;
+    box-shadow: none;
 
+}
+.wrong:active
+{
+    background-color: indianred;
+    box-shadow: none;
+}
+.my_btn_prog
+{
+    border: none;
+    border-radius: 5px;
+    box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.2);
+    background-color:white;
+    margin:5px;
+    padding:10px;
+}

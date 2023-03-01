@@ -45,7 +45,9 @@ abstract class View
           <script src="../pages_js/calendar.js"></script>
           <script src="../pages_js/instrument.js"></script>
            <script src="../pages_js/card_formula.js"></script>
+           <script src="../pages_js/progress.js"></script>
            <script src="../controller_js/card_formuls_controller.js"></script>
+           <script src="../controller_js/progress_controller.js"></script>
           <script src="../controller_js/calendar_controller.js"></script>
           <script src="../controller_js/cours_controller.js"></script>
           <script src="../controller_js/chapter_controller.js"></script>

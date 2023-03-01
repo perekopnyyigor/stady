@@ -23,7 +23,7 @@ class Enter extends View
         
             <div class="form-floating">
               <input  class="form-control" id="floatingInput" placeholder="name@example.com" name="login">
-              <label for="floatingInput">Email address</label>
+              <label for="floatingInput">Login</label>
             </div>
             <div class="form-floating">
               <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">

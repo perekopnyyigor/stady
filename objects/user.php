@@ -103,7 +103,7 @@ class User
         }
         else
         {
-            $result = "Неправельный логин или пароль";
+            $result = "Неверный логин или пароль";
             echo '<script>alert("'.$result.'");';
             echo 'location.href = "../index.php?action=enter";</script>';
         }

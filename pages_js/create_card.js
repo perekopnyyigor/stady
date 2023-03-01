@@ -164,8 +164,10 @@ class CreateCard
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(2)">Формула</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(3)">Р. Формулу</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(4)">Р. Строку</button>';
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(6)">Л. Столб</button>';
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(7)">П. Столб</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(5)">Удалить</button>';
-
+        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(8)">Формат</button>';
         content += '<button class="btn btn-primary" onclick="CreateCardController.check()">Проверить</button>';
 
         content +='<input type="file" name="file" onchange="CreateCardController.addImg()">';
