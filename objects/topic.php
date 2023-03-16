@@ -75,10 +75,17 @@ class Topic
     {
 
         $this->id=$id;
+
         $this->name=database::select_one_stat("name","topic","WHERE id ='".$id."'");
         $this->translit=database::select_one_stat("translit","topic","WHERE id ='".$id."'");
         $this->chapter=database::select_one_stat("chapter","topic","WHERE id ='".$id."'");
         $this->cours=database::select_one_stat("cours","chapter","WHERE id ='".$this->chapter."'");
+
+        $this->chapter_name=database::select_one_stat("name","chapter","WHERE id ='".$this->chapter."'");
+        //$this->chapter_translit=database::select_one_stat("translit","chapter","WHERE id ='".$this->chapter."'");
+
+        $this->cours_name=database::select_one_stat("name","cours","WHERE id ='".$this->cours."'");
+        $this->cours_translit=database::select_one_stat("translit","cours","WHERE id ='".$this->cours."'");
         if($cards)
             $this->cards=$this->find_cards();
     }

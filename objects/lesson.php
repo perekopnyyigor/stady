@@ -8,7 +8,23 @@ class Lesson
     public $date;
     public $period;
     public $cours;
+    public $counter;
     public $topic_name;
+    public $days;
+
+    static function top()
+    {
+        //database::connect_stat();
+        $objs = database::count("topic","lesson");
+
+        $lessons=[];
+        for($i=0;$i<6;$i++)
+        {
+            $lessons[$i]=new Topic($objs[$i]->id,false);
+            $lessons[$i]->counter=$objs[$i]->count;
+        }
+        return $lessons;
+    }
 
     static function add_try($data_js)
     {
@@ -32,37 +48,7 @@ class Lesson
         $period = database::select_one_stat("period","lesson","WHERE id ='".$id."'");
 
         $now = date('Y-m-d');
-/*
-        if($date == "" || $date==null)
-        {
 
-           if($data->greed > 75)
-           {
-               $date_next = new DateTime($now);
-               $date_next->add(new DateInterval('P1D'));
-
-               $database = new Database();
-               $database->connect();
-                $sql = "UPDATE lesson SET 
-                date = '".$now."',  
-                period = 1,
-                date_next = '".$date_next->format('Y-m-d')."'
-                WHERE id = '$id'";
-
-               $result = $database->conn->query($sql);
-               if ($database->conn->error)
-               {
-                   die("failed: " . $database->conn->error);
-               }
-                echo "Вы прошли тест. Результат ".$data->greed;;
-           }
-           else
-           {
-               echo "Вы не прошли тест. Результат ".$data->greed;;
-           }
-
-        }
-        else*/
         {
             if(($next_date===$now) || ($now>$next_date) )
             {
@@ -111,6 +97,22 @@ class Lesson
         }
 
     }
+    public function change_data($date_next)
+    {
+
+
+        $database = new Database();
+        $database->connect();
+        $sql = "UPDATE lesson SET               
+                date_next = '".$date_next->format('Y-m-d')."'
+                WHERE id = '$this->id'";
+
+        $result = $database->conn->query($sql);
+        if ($database->conn->error)
+        {
+            die("failed: " . $database->conn->error);
+        }
+    }
     public function __construct($id)
     {
 
@@ -130,6 +132,17 @@ class Lesson
 
         $this->cours_name = database::select_one_stat("name", "cours", "Where id=".$this->cours);
         $this->cours_translit = database::select_one_stat("translit", "cours", "Where id=".$this->cours);
+
+        $days = pow(2,$this->period)-1;
+        $date_next=new DateTime($this->date);
+        $date_next->add(new DateInterval('P'.$days.'D'));
+        $this->days = date_diff(new DateTime(),$date_next)->days;
+        if(new DateTime()>$date_next)
+            $this->days = - $this->days;
+
+
+
+        $this->raiting = $this->days + $days;
     }
     public function find_try()
     {

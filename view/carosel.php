@@ -4,7 +4,7 @@ class Carosel
     static function main()
     {
         echo '
-       <div class="row">
+       <div class="">
         <div class="col-xl-2 col-lg-2 col-md-1 "></div>
         <div class="col-xl-8 col-lg-8 col-md-10 ">
         <h1 class="px-4 mt-5" style="font-weight:bold">Studycard - сайт для обучения </h1>

@@ -67,10 +67,54 @@ class database
         return $sel[0];
 
     }
+    static function count($colum, $tab)
+    {
 
-  //------------------------------------------------------------------------------------
 
 
+        $sql =  "SELECT COUNT(" . $colum . "), " . $colum . " FROM " . $tab . "  GROUP BY " . $colum . " ORDER BY COUNT(" . $colum . ") DESC";
+        //$sql ="SELECT COUNT(topic), topic FROM lesson GROUP BY topic ORDER BY COUNT(topic) DESC";
+        $result = database::$connect->query($sql);
+        $i = 0;
+
+        $sel=[];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $sel[$i]->count = $row["COUNT($colum)"];
+                $sel[$i]->id = $row[$colum];
+                $i++;
+            }
+
+        }
+
+        return $sel;
+
+    }
+
+  //------------------------------------------------------------------------------------S
+
+    static function count_one($tab,$parametr)
+    {
+
+
+
+        $sql =  "SELECT COUNT(id) FROM $tab WHERE".$parametr;
+        //$sql ="SELECT COUNT(topic), topic FROM lesson GROUP BY topic ORDER BY COUNT(topic) DESC";
+        $result = database::$connect->query($sql);
+        $i = 0;
+
+        $sel=[];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $sel[$i]->count = $row["COUNT(id)"];
+                $i++;
+            }
+
+        }
+
+        return $sel[0];
+
+    }
 
 
 

@@ -3,13 +3,21 @@ require_once "view.php";
 require_once "carosel.php";
 class MainPage extends View
 {
+    public $user;
     function main($courses,$user=false)
     {
+        if($user!=false)
+            $this->user=$user;
+
         $this->including($courses);
 
-        $this->navbar($user);
+        $this->navbar();
         Carosel::main();
         $this->list_chapters($courses);
+
+
+
+
     }
     function including($courses)
     {
@@ -96,46 +104,128 @@ class MainPage extends View
     function list_chapters($courses)
     {
         echo '<h2 class="px-4 mt-5" style="font-weight:bold" >Cписок курсов</h2>';
-        echo '<div class="row px-4 mt-5">';
+        echo '<div class="row ">';
         foreach ($courses as $cours)
         {
-            echo '<div class="mx-auto  col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-11 mt-2 ">';
+            echo '<div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 ">';
             $this->description($cours);
             echo '</div>';
-/*
-
-
-            echo '<a class="link-dark" style="text-decoration:none;" href="../index.php?action=open_cours&cours_id='.$cours->id.'">';
-            echo '<div class="shadow card   p-4 border " >';
-            echo '<img style="height:200px; width:250px" class="img-thumbnail mx-auto " src="'.$cours->picture.'" class="card-img-top" alt="...">';
-            echo '<h2 style="font-weight:bold" class="card-title">'.$cours->name.'</h2>';
-            echo '<p style="font-weight:bold" class="card-text">'.$cours->description.'</p>';
-            //echo '<a class="btn btn-primary" href="../index.php?action=open_cours&cours_id='.$cours->id.'">Пререйти</a>';
-            echo '</div>';
-            echo '</a>';
-            echo '</div>';*/
         }
         echo '</div>';
 
     }
     public function description($cours)
     {
+
         $content='<a class="link-dark" style="text-decoration:none;" href="../'.$cours->translit.'">';
-        $content.='<div class="shadow card   p-1 border " >';
+        if(isset($this->user))
+            $content.='<div class="card p-2 m-2 my_border" style="height: 200px" >';
+        else
+            $content.='<div class="card p-2 m-2 my_border" style="height: 150px" >';
+
         $content.='  <div class="row ">';
-        $content.='    <div class="col-4">';
+
+
+        $content.='    <div class="col-5 m-2">';
         $content.='      <img src="'.$cours->picture.'" style="height:100px; width:125px" alt="...">';
+
         $content.='    </div>';
-        $content.='    <div class=" mx-auto col-6">';
-        $content.='      <div class="  card-body p-1 m-1">';
-        $content.='        <h3 style="font-weight:bold" class="card-title">'.$cours->name.'</h3>';
+        $content.='    <div class="col-5">';
+        $content.='      <div class="card-body ">';
+        $content.='        <h3 style="font-weight:bold" >'.$cours->name.'</h3>';
         $content.='        <p class="card-text">'.$cours->description.'</p>';
+        $content.='        <p class="card-text"><small class="text-muted">Уроков :'.$cours->count_topic.'</small></p>';
+
+
+        $content.='      </div>';
+
+        $content.='    </div>';
+        if(isset($this->user))
+        {
+            $value = $this->user->find_lessons_cours($cours->id)/$cours->count_topic*100;
+            $value_str = $this->user->find_lessons_cours($cours->id)." / ".$cours->count_topic;
+            $content.='<div class="mx-auto progress col-11" role="progressbar" aria-label="Example with label" aria-valuenow="'.$value.'" aria-valuemin="0" aria-valuemax="100">';
+            $content.='<div class="progress-bar " style="width: '.$value.'%">'.$value_str.'</div>';
+            $content.='</div>';
+
+        }
+        $content.='  </div>';
+
+        $content.='</div>';
+        $content.='</a>';
+        echo $content;
+    }
+    function list_($courses)
+    {
+        echo '<h2 class="px-4 mt-5" style="font-weight:bold" >Популярные темы</h2>';
+        echo '<div class="row ">';
+        foreach ($courses as $cours)
+        {
+            echo '<div class=" col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12  ">';
+            $this->item($cours);
+            echo '</div>';
+        }
+        echo '</div>';
+
+    }
+    public function item($cours)
+    {
+        $content='<a class="link-dark" style="text-decoration:none;" href="../'.$cours->cours_translit.'/'.$cours->translit.'">';
+        $content.='<div class="card p-2 m-2 my_border" style="height: 150px" >';
+        $content.='  <div class="row ">';
+        //$content.='    <div class="col-4">';
+        //$content.='      <img src="'.$cours->picture.'" style="height:100px; width:125px" alt="...">';
+        //$content.='    </div>';
+        $content.='    <div class=" mx-auto col-12">';
+        $content.='      <div class="  card-body ">';
+        $content.='        <h3 style="font-weight:bold" class="card-title">'.$cours->name.'</h3>';
+        $content.='        <p class="card-text">'.$cours->cours_name.'/'.$cours->chapter_name.'</p>';
+        $content.='        <p class="card-text"> Прошли: '.$cours->counter.' человек</p>';
         // $content.='        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>';
         $content.='      </div>';
         $content.='    </div>';
         $content.='  </div>';
         $content.='</div>';
         $content.='</a>';
+        echo $content;
+    }
+    public function show_topics($courses)
+    {
+        $content='<h2 class="px-4 mt-5" style="font-weight:bold" >Популярные темы</h2>';
+        $content.='<ol class="list-group list-group-numbered">';
+        foreach ($courses as $cours)
+        {
+            $content.='<a class="link-dark" style="text-decoration:none;" href="../'.$cours->cours_translit.'/'.$cours->translit.'">';
+            $content.='<li class="list-group-item d-flex justify-content-between align-items-start">';
+            $content.='    <div class="ms-2 me-auto">';
+            $content.='      <div class="fw-bold">'.$cours->name.'</div>';
+            $content.=      $cours->cours_name.'/'.$cours->chapter_name;
+            $content.='    </div>';
+            $content.='    <span class="badge bg-primary rounded-pill">'.$cours->counter.'</span>';
+            $content.='  </li></a>';
+        }
+
+
+        $content.='</ol>';
+        echo $content;
+    }
+    public function show_leaders($users)
+    {
+        $content='<h2 class="px-4 mt-5" style="font-weight:bold" >Лидеры </h2>';
+        $content.='<ol class="list-group list-group-numbered">';
+        foreach ($users as $user)
+        {
+            $content.='<li class="list-group-item d-flex justify-content-between align-items-start">';
+            $content.='    <div class="ms-2 me-auto">';
+            $content.='      <span class="fw-bold">'.$user->user_name.'</span>';
+            //$content.='      Пройдено тем '.$user->counter.'   ';
+            $content.='    </div>';
+            $content.='    <span class="badge bg-primary rounded-pill">'.$user->counter.'</span>';
+            $content.='  </li>';
+        }
+
+
+        $content.='</ol>';
         echo $content;
     }
 }

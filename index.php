@@ -15,6 +15,7 @@ require_once "objects/lesson.php";
 require_once "objects/cours.php";
 require_once "objects/sitemap.php";
 require_once "objects/try.php";
+require_once "objects/google_aut.php";
 
 $main_page = new MainPage();
 $enter_page = new Enter();
@@ -30,7 +31,16 @@ function url()
         $main_page = new MainPage();
         database::connect_stat();
         $courses = CoursObj::course();
-        $main_page->main($courses);
+
+        $lessons=Lesson::top();
+        $users=User::top();
+        if (isset($_SESSION["id"]))
+            $user = new User($_SESSION["id"]);
+        $main_page->main($courses,$user);
+        //$main_page->list_($lessons);
+        $main_page->show_topics($lessons);
+        $main_page->show_leaders($users);
+
     }
     if(count($url)==2 && $url[1]!="")
     {
@@ -61,9 +71,9 @@ switch ($_GET["action"])
     case "all_chapters":
         database::connect_stat();
         $courses = CoursObj::course();
-        $main_page->main($courses);
+        //$main_page->main($courses);
+        echo $courses;
         break;
-
     case "enter":
         database::connect_stat();
         $enter_page->main();
@@ -78,10 +88,8 @@ switch ($_GET["action"])
         User::add($data);
         break;
     case "enter_action":
-
         database::connect_stat();
         $data=$enter_page->get_data();
-
         User::enter($data);
         break;
     case "cabinet":
@@ -259,9 +267,29 @@ switch ($_GET["action"])
         $data = $lesson->find_try();
         echo json_encode($data);
         break;
+    case "distribut":
+        database::connect_stat();
+        $user = new User($_SESSION["id"]);
+        echo $user->name;
+        $user->distribut();
+        break;
+    case "distribut_date":
+        database::connect_stat();
+        $user = new User($_SESSION["id"]);
+        echo $user->name;
+        $user->distribut_data();
+        break;
+    case "google_auto":
+
+        GoogleOut::request();
+        break;
+    case "google":
+        database::connect_stat();
+        $googleData = GoogleOut::answer();
+        GoogleOut::add($googleData);
+        break;
     default:
         echo "sasdaf";
-
 
 
 }

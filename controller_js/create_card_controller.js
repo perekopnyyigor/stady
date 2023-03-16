@@ -2,7 +2,28 @@ class CreateCardController
 {
     static contentArr=[];
     static cours_id;
+    static render()
+    {
+        let el = document.getElementsByTagName("chem");
 
+        for (let i=0;i<el.length;i++)
+        {
+            let elem2 = el[i];
+            let ex2 = ChemSys.compile( el[i].innerHTML);
+            el[i].innerHTML="";
+            ChemSys.draw(elem2, ex2);
+        }
+
+        el = document.getElementsByTagName("chem_str");
+
+        for (let i=0;i<el.length;i++)
+        {
+            var elem2 = el[i];
+            var ex2 = ChemSys.compile( el[i].innerHTML);
+            el[i].innerHTML=ex2.html();
+
+        }
+    }
     static onload(cours_id)
     {
 
@@ -21,28 +42,30 @@ class CreateCardController
         InstrumentController.onload();
         CreateCardController.update();
     }
-    static remember(arg)
+    static click_topic(arg)
     {
         let elements= document.getElementsByTagName("details");
         for (const element of elements) {
 
-            if(Number(element.id) !== Number(arg.id))
+            if(Number(element.id) !== Number(arg))
                 element.open=false;
         }
-        localStorage.setItem("last_details", arg.id);
+        localStorage.setItem("last_details", arg);
+        document.getElementById("instrument").innerHTML=CreateCard.typeTestList(arg);
     }
     static openCardForm(id)
     {
         document.getElementById("redactor").innerHTML=CreateCard.card_form(id);
-        InstrumentController.onload();
+        document.getElementById("instrument").innerHTML=CreateCard.typeTestList(id);
     }
     static openCardFormContent(id)
     {
         let data = Model.get_card(id);
 
         document.getElementById("redactor").innerHTML=CreateCard.card_form_content(data);
-        CreateCardController.check();
         InstrumentController.onload();
+        CreateCardController.check();
+
 
 
     }
@@ -159,7 +182,13 @@ class CreateCardController
             {
                 let content =card_content[i].split("{t}");
                 card_content[i]=content[0];
-
+            }
+        }
+        for (let i = 0;i<card_content.length;i++)
+        {
+            if(card_content[i].includes("{n}"))
+            {
+                card_content[i]="";
             }
         }
         card_content=card_content.join("");
@@ -239,6 +268,7 @@ class CreateCardController
             katex.render(text, formula[i]);
         }
         hljs.highlightAll();
+        CreateCardController.render();
     }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -255,13 +285,13 @@ class CreateCardController
     {
 
         CardFormula.onload(id);
-        InstrumentController.onload();
+        document.getElementById("instrument").innerHTML=CreateCard.typeTestList(id);
     }
     static cardCode(id)
     {
 
         CardCode.onload(id);
-        InstrumentController.onload();
+        document.getElementById("instrument").innerHTML=CreateCard.typeTestList(id);
     }
     static replaceAll(string,search,replace)
     {

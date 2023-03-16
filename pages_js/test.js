@@ -6,8 +6,10 @@ class Test{
     static type;
     static task;
     static language;
+    static count=0;
     static card(data,last_card)
     {
+        Test.count=0;
         Test.contentArr = data.content_mark.split('{m}');
 
         for (let i=0;i<Test.contentArr.length;i++)
@@ -20,6 +22,14 @@ class Test{
             }
             else
                 Test.contentType[i]=null;
+
+            if(Test.contentArr[i].includes("{n}"))
+            {
+                Test.count++;
+                let content =Test.contentArr[i].split("{n}");
+                Test.contentArr[i]=content[0];
+            }
+
 
         }
 
@@ -97,6 +107,7 @@ class Test{
 
     static res(count)
     {
+
         let result = "";
 
         if(Test.type==2)
@@ -112,7 +123,7 @@ class Test{
                 result +=Test.contentArr[i];
 
         }
-        for(let i=count;i<Test.contentArr.length;i++)
+        for(let i=count;i<Test.contentArr.length-(Test.count*2);i++)
         {
 
             if(i%2==0)
@@ -153,100 +164,86 @@ class Test{
         result +='<h4 class="m-1" style="font-weight:bold">Варианты</h4>';
         let random = [];
         let massiv_value = Test.contentArr[TestController.count_variant];
-
-        if(Test.type==3)
+        if (Test.contentArr.length-(Test.count*2)!=count)
         {
-
-
-            let content=[];
-            let j=0;
-            for(let i=count;i<Test.contentArr.length;i++)
-            {
-                let inner_value = Test.contentArr[i];
-                let text='';
-                if(i%2==1)
-                {
-                    if(inner_value == massiv_value)
-                        text +='<button class="my_btn_prog" onclick="TestController.answer('+i+')" >';
-                    else
-                        text +='<button class="my_btn_prog" onclick="TestController.answer('+i+')" >';
-                    text += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="'+Test.language+'">'+Test.contentArr[i]+'</code></pre>';
-                    text += '</button>';
+            if (Test.type == 3) {
+                let content = [];
+                let j = 0;
+                for (let i = count; i < Test.contentArr.length; i++) {
+                    let inner_value = Test.contentArr[i];
+                    let text = '';
+                    if (i % 2 == 1) {
+                        if (inner_value == massiv_value)
+                            text += '<button class="my_btn_prog" onclick="TestController.answer(' + i + ')" >';
+                        else
+                            text += '<button class="my_btn_prog" onclick="TestController.answer(' + i + ')" >';
+                        text += '<pre style="border:0;margin: 0; padding: 0"><code style="margin: 0; padding: 0" class="' + Test.language + '">' + Test.contentArr[i] + '</code></pre>';
+                        text += '</button>';
+                    }
+                    content[j] = text;
+                    j++;
                 }
-                content[j]=text;
-                j++;
-            }
-            Test.shuffle(content);
-            for(let i=0;i<content.length;i++)
-            {
-                result+=content[i];
-            }
-        }
-       else if(Test.type==2)
-        {
-
-            let content=[];
-            let j=0;
-            for(let i=count;i<Test.contentArr.length;i++)
-            {
-                let inner_value = Test.contentArr[i];
-                let text='';
-                if(i%2==1)
-                {
-                    if(inner_value == massiv_value)
-                        text +='<button class="my_btn right" onclick="TestController.answer('+i+')">';
-                    else
-                        text +='<button class="my_btn wrong" onclick="TestController.answer('+i+')">';
-                    text +='<formula >'+Test.contentArr[i]+'</formula>';
-                    text += '</button>';
+                Test.shuffle(content);
+                for (let i = 0; i < content.length; i++) {
+                    result += content[i];
                 }
-                content[j]=text;
-                j++;
-            }
-            Test.shuffle(content);
-            for(let i=0;i<content.length;i++)
-            {
-                result+=content[i];
-            }
+            } else if (Test.type == 2) {
 
-        }
-        else
-        {
-
-            let content=[];
-            let j=0;
-            for(let i=count;i<Test.contentArr.length;i++)
-            {
-                let inner_value = Test.contentArr[i];
-                let text='';
-                if(i%2==1)
-                {
-                    //text +='<button class="btn btn-primary  m-1"  onclick="TestController.answer(\"'+Test.contentArr[i]+'\")">';
-                    if(inner_value == massiv_value)
-                        text +='<button class="my_btn right"  onclick="TestController.answer('+i+')">';
-                    else
-                        text +='<button class="my_btn wrong"  onclick="TestController.answer('+i+')">';
-                    text +=Test.contentArr[i];
-                    text += '</button>';
+                let content = [];
+                let j = 0;
+                for (let i = count; i < Test.contentArr.length; i++) {
+                    let inner_value = Test.contentArr[i];
+                    let text = '';
+                    if (i % 2 == 1) {
+                        if (inner_value == massiv_value)
+                            text += '<button class="my_btn right" onclick="TestController.answer(' + i + ')">';
+                        else
+                            text += '<button class="my_btn wrong" onclick="TestController.answer(' + i + ')">';
+                        text += '<formula >' + Test.contentArr[i] + '</formula>';
+                        text += '</button>';
+                    }
+                    content[j] = text;
+                    j++;
                 }
-                content[j]=text;
-                j++;
-            }
-            Test.shuffle(content);
-            for(let i=0;i<content.length;i++)
-            {
-                result+=content[i];
-            }
-        }
+                Test.shuffle(content);
+                for (let i = 0; i < content.length; i++) {
+                    result += content[i];
+                }
 
-        result+='</ul>';
+            } else {
+
+                let content = [];
+                let j = 0;
+                for (let i = count; i < Test.contentArr.length; i++) {
+                    let inner_value = Test.contentArr[i];
+                    let text = '';
+                    if (i % 2 == 1) {
+                        //text +='<button class="btn btn-primary  m-1"  onclick="TestController.answer(\"'+Test.contentArr[i]+'\")">';
+                        if (inner_value == massiv_value)
+                            text += '<button class="my_btn right"  onclick="TestController.answer(' + i + ')">';
+                        else
+                            text += '<button class="my_btn wrong"  onclick="TestController.answer(' + i + ')">';
+                        text += Test.contentArr[i];
+                        text += '</button>';
+                    }
+                    content[j] = text;
+                    j++;
+                }
+                Test.shuffle(content);
+                for (let i = 0; i < content.length; i++) {
+                    result += content[i];
+                }
+            }
+
+            result += '</ul>';
+        }
         return result
     }
     static buttons(last_card,count)
     {
         let content="";
-
-        if (Test.contentArr.length==count)
+        //alert(Test.contentArr.length-(Test.count*2)+"/"+count);
+        if (Test.contentArr.length-(Test.count*2)==count)
         {
 
             if(last_card)

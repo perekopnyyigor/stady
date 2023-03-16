@@ -140,7 +140,6 @@ class User
 
     public function find_courses()
     {
-
         $chapters_id = database::select_stat("cours", "subscribtion", "Where user=".$this->id);
         $chapters=[];
 
@@ -152,7 +151,6 @@ class User
     }
     public function find_lessons()
     {
-
         $lesson_id = database::select_stat("id", "lesson", "Where user=".$this->id);
         $lessons=[];
 
@@ -161,6 +159,19 @@ class User
             $lessons[] = new Lesson($lesson_id[$i]);
         }
         return json_encode($lessons);
+    }
+    public function find_lessons_cours($cours_id)
+    {
+        $lesson_id = database::select_stat("id", "lesson", "Where user=".$this->id);
+        $lessons=[];
+        $count=0;
+        for ($i=0;$i<count($lesson_id);$i++)
+        {
+            $lessons[$i] = new Lesson($lesson_id[$i]);
+            if($lessons[$i]->cours==$cours_id)
+                $count++;
+        }
+        return $count;
     }
     public function subscrib($course_id)
     {
@@ -223,7 +234,6 @@ class User
     {
 
 
-
         $id = database::select_one_stat("id","lesson","WHERE topic ='".$topic_id."' AND user ='".$this->id."'");
         $result="";
         if($id==null)
@@ -257,6 +267,81 @@ class User
             die("failed: " . $database->conn->error);
         }
     }
+    static function top()
+    {
+        //database::connect_stat();
+        $objs = database::count("user","lesson");
+
+        $users=[];
+        for($i=0;$i<10;$i++)
+        {
+            $users[$i]->user_name=database::select_one_stat("name","user","WHERE id ='".$objs[$i]->id."'");
+            $users[$i]->counter=$objs[$i]->count;
+        }
+        return $users;
+    }
+    public function distribut()
+    {
+        $lesson_id = database::select_stat("id", "lesson", "Where user=".$this->id);
+        $lessons=[];
+
+        $date= date('Y-m-d');
+        $date_next=new DateTime($date);
+
+
+        for ($i=0;$i<count($lesson_id);$i++)
+        {
+            $lessons[$i] = new Lesson($lesson_id[$i]);
+        }
+
+
+        for ($j = 0; $j < count($lessons) - 1; $j++){
+            for ($i = 0; $i < count($lessons) - $j - 1; $i++){
+                // если текущий элемент больше следующего
+                if ($lessons[$i]->raiting > $lessons[$i + 1]->raiting){
+                    // меняем местами элементы
+                    $tmp_var = $lessons[$i + 1];
+                    $lessons[$i + 1] = $lessons[$i];
+                    $lessons[$i] = $tmp_var;
+                }
+            }
+        }
+
+        $count=0;
+        $day=0;
+        while ($count<count($lessons))
+        {
+
+            echo $date_next->format('Y-m-d')."<br>";
+            for ($j=0;$j<3;$j++)
+            {
+                $lessons[$count]->change_data($date_next);
+
+                echo $lessons[$count]->topic_name."<br>";
+                $count++;
+            }
+            $date_next->add(new DateInterval('P1D'));
+        }
+
+
+    }
+    public function distribut_data()
+    {
+        $lesson_id = database::select_stat("id", "lesson", "Where user=".$this->id);
+        $lessons=[];
+
+
+        for ($i=0;$i<count($lesson_id);$i++)
+        {
+            $lessons[$i] = new Lesson($lesson_id[$i]);
+            $date =new DateTime($lessons[$i]->date);
+            $days = pow(2,$lessons[$i]->period)-1;
+            $date->add(new DateInterval('P'.$days.'D'));
+            $lessons[$i]->change_data($date);
+        }
+
+    }
+
 
 
 

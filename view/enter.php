@@ -41,6 +41,11 @@ class Enter extends View
             
             <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Регистрация</button>           
           </form>
+          <form method="POST" enctype="multipart/form-data" action="../index.php?action=google_auto">
+            
+            
+            <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Войти через Google</button>           
+          </form>
         </main>
         </body>
         

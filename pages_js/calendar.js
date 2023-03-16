@@ -7,8 +7,16 @@ class  Calendar
         document.getElementById("main").innerHTML=Calendar.breadcrumb();
         document.getElementById("main").innerHTML+=Calendar.button_back();
         document.getElementById("main").innerHTML+="<h1 style=\"font-weight:bold\">Календарь</h1>";
+        document.getElementById("main").innerHTML+=Calendar.buttons();
         document.getElementById("main").innerHTML+=Calendar.show_days_1();
         document.getElementById("main").innerHTML+=Calendar.show_dept();
+    }
+    static buttons()
+    {
+        let content="";
+        content+='<button type="button" class="btn btn-primary m-1"  onclick="CalendarController.days()">По дням</button>';
+        content+='<button type="button" class="btn btn-primary m-1"  onclick="CalendarController.repeat()">По повторениям</button>';
+        return content;
     }
     static button_back()
     {
@@ -35,14 +43,14 @@ class  Calendar
 
         return  result;
     }
-    static calendar()
+    /*static calendar()
     {
         let content ='';
         content+='<input type="date" id="calendar" onchange="CalendarController.search()">';
         content+='<button onclick="CalendarController.search()">Найти</button>';
 
         return content;
-    }
+    }*/
     static show_days()
     {
         let content ="";
@@ -110,11 +118,22 @@ class  Calendar
 
             if (dat_str > Calendar.data[i].date_next)
            {
-               let name = Calendar.data[i].topic_name+"/"+Calendar.data[i].chapter_name+"/"+Calendar.data[i].cours_name;
+               //let name = Calendar.data[i].topic_name+"/"+Calendar.data[i].chapter_name+"/"+Calendar.data[i].cours_name;
                let href = "../"+Calendar.data[i].cours_translit+"/"+Calendar.data[i].topic_translit;
-
+               let period = Math.pow(2,Calendar.data[i].period)-1;
                 //content += Calendar.data[i].topic_name +"<br>";
-                content +='<a class="list-group-item list-group-item-action" href="'+href+'">' +name+'</a>';
+                //content +='<a class="list-group-item list-group-item-action" href="'+href+'">' +name+'</a>';
+               content +='<a class="link-dark" style="text-decoration:none;" href="../'+href+'">';
+               content +='<li class="list-group-item d-flex justify-content-between align-items-start">';
+               content +='    <div class="ms-2 me-auto">';
+               content +='      <div class="fw-bold">'+Calendar.data[i].topic_name+'</div>';
+               content +=      Calendar.data[i].cours_name+'/'+Calendar.data[i].chapter_name;
+               let dat2 = new Date(Calendar.data[i].date_next);
+               let days =Math.ceil((dat.getTime()-dat2.getTime())/(1000*3600*24));
+               content +=      " ("+Calendar.data[i].days+")";
+               content +='    </div>';
+               content +='    <span class="badge bg-primary rounded-pill">'+period+'</span>';
+               content +='  </li></a>';
             }
 
         }
@@ -135,7 +154,7 @@ class  Calendar
             '            </div>';
         let dat = new Date();
         let dat_arr=[];
-        for (let i=0;i<5;i++)
+        for (let i=0;i<10;i++)
         {
 
             let dat_str = dat.toISOString().split('T');
@@ -167,10 +186,19 @@ class  Calendar
         {
             if (date === Calendar.data[i].date_next)
             {
-                let name = Calendar.data[i].topic_name+"/"+Calendar.data[i].chapter_name+"/"+Calendar.data[i].cours_name;
+                //let name = Calendar.data[i].topic_name+"/"+Calendar.data[i].chapter_name+"/"+Calendar.data[i].cours_name;
                 let href = "../"+Calendar.data[i].cours_translit+"/"+Calendar.data[i].topic_translit;
 
-                content += '<a class="list-group-item" href="'+href+'">' +name+'</a>';
+                //content += '<a class="list-group-item" href="'+href+'">' +name+'</a>';
+                let period = Math.pow(2,Calendar.data[i].period)-1;
+                content +='<a class="link-dark" style="text-decoration:none;" href="../'+href+'">';
+                content +='<li class="list-group-item d-flex justify-content-between align-items-start">';
+                content +='    <div class="ms-2 me-auto">';
+                content +='      <div class="fw-bold">'+Calendar.data[i].topic_name+'</div>';
+                content +=      Calendar.data[i].cours_name+'/'+Calendar.data[i].chapter_name;
+                content +='    </div>';
+                content +='    <span class="badge bg-primary rounded-pill">'+period+'</span>';
+                content +='  </li></a>';
             }
 
         }

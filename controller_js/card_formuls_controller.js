@@ -56,6 +56,13 @@ class CardFormulsController
 
             }
         }
+        for (let i = 0;i<card_content.length;i++)
+        {
+            if(card_content[i].includes("{n}"))
+            {
+                card_content[i]="";
+            }
+        }
         card_content=card_content.join("");
 
         let id = document.getElementById("card_id").value;

@@ -60,7 +60,7 @@ class Cours extends View
         if($top!=null)
         {
             echo '<title>'.$top->name.'</title>';
-            echo '<meta name="description" content="'.$top->name.' тестирование и практика">';
+            echo '<meta name="description" content="'.$top->name.' тесты">';
             echo ' <link rel="canonical" href="https://studycard.ru/'.$cours->translit.'/'.$top->translit.'">';
         }
         else
@@ -193,8 +193,8 @@ class Cours extends View
     {
         $user = new User($_SESSION["id"]);
 
-        echo '<div class="row">';
-
+        echo '<div class="">';
+        echo '<div class="col-xl-2 col-lg-2 col-md-1 "></div>';
         echo '<div class="mx-auto  col-xl-8 col-lg-8 col-md-10 ">';
         ;
         $this->menu($cours);
@@ -205,7 +205,7 @@ class Cours extends View
         if ($top!="" && $top!=null )
         {
             $this->button_back($cours,$top);
-            echo '<h1 style="font-weight:bold"   itemprop="headline" class="m-4">Тема: '.$top->name.'</h1><br>';
+            echo '<h1 style="font-weight:bold"   itemprop="headline" class="m-4">'.$top->name.'</h1><br>';
             $this->hint($user,$cours);
 
             for($i=0;$i<count($top->cards);$i++)
@@ -236,57 +236,13 @@ class Cours extends View
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
-               /* if($top->cards[$i]->type == 2)
-                {
 
-                    echo ' <div class="card shadow mb-3">';
-                    echo '  <div class="card-header"><h2 style="font-weight:bold" class="m-lg-3" >'.$top->cards[$i]->name.'</h2></div>';
-                    echo '  <div class="card-body ">';
-                    echo ' <div class="card-text" >'.$top->cards[$i]->task.'</div>';
-                     //echo '   <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
-                     echo '   <formula>'.$top->cards[$i]->content.'</formula>';
-                     echo ' </div>';
-                    echo '</div>';
-                }
-                else if($top->cards[$i]->type == 3)
-                {
-
-                    echo ' <div class="card shadow mb-3">';
-                    echo '  <div class="card-header"><h2 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h2></div>';
-                    echo '  <div class="card-body ">';
-                    //echo '   <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
-                    echo ' <div class="card-text" itemprop="articleBody">'.$top->cards[$i]->task.'</div>';
-                    echo "<pre><code id='view' itemprop=\"articleBody\" class='.$top->cards[$i]->language.' >".$top->cards[$i]->content."</code></pre>";
-                    echo ' </div>';
-                    echo '</div>';
-                }
-                else if($top->cards[$i]->type == 1)
-                {
-                    echo '<div class="card shadow mb-3" >';
-                    echo '  <div class="card-header"><h2 itemprop="alternativeHeadline" style="font-weight:bold" class="m-lg-3">'.$top->cards[$i]->name.'</h2></div>';
-                      echo '<div class="card-body ">';
-                       //echo ' <h4 class="card-title">'.$top->cards[$i]->name.'</h4>';
-                        if($top->cards[$i]->picture!=null)
-                        {
-                            //echo '<img width="200px" src="'.$top->cards[$i]->picture.'">';/*
-                            for($j=0;$j<count($top->cards[$i]->picture);$j++)
-                            {
-                                echo '<img  width="200px" src="'.$top->cards[$i]->picture[$j].'">';
-                            }
-                        }
-                       echo ' <p class="card-text" >'.$top->cards[$i]->task.'<br>';
-                        echo $top->cards[$i]->content.'</p>';
-                      echo '</div>';
-                    echo ' </div>';
-
-
-
-                }*/
 
 
             }
 
             //echo '<button id="'.$top->id.'" class=" btn btn-primary btn-lg" onclick="TestController.onload(this)"> <span  style="font-weight:bold" >Пройти тест</span></button>';
+            echo ' <h2 itemprop="alternativeHeadline" style="font-weight:bold" class="mx-3">Пройдите тест на закрепление</h2>';
             $this->button_subscrid($cours,$top->id);
             echo "</div>";
         }
@@ -336,11 +292,11 @@ class Cours extends View
 
         $content.='<div class="card mb-3" style="">';
         $content.='<a class="link-dark" style="text-decoration:none;" href="../'.$cours->translit.'/'.$cours->chapters[0]->topics[0]->translit.'">';
-        $content.='  <div class="row g-0">';
-        $content.='    <div class="col-4">';
+        $content.='  <div class="row">';
+        $content.='    <div class="col-5 m-2">';
         $content.='      <img src="'.$cours->picture.'" class="img-fluid rounded-start" alt="...">';
         $content.='    </div>';
-        $content.='    <div class="col-8">';
+        $content.='    <div class="col-6">';
         $content.='      <div class="card-body">';
         $content.='        <h2 style="font-weight:bold" class="card-title">'.$cours->name.'</h2>';
         $content.='        <p class="card-text">'.$cours->description.'</p>';

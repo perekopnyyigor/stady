@@ -6,12 +6,12 @@ class CreateCard
     {
 
         let content = '';
-        content+='<div id="menu" class="col-2">Меню</div>';
-        content+='<div id="instrument" class="col-2">Инструменты</div>';
+        content+='<div id="menu" class="col-2 overflow-auto"  style="height: 90vh;">Меню</div>';
+        content+='<div id="instrument" class="col-2"  style="height: 90vh;">Инструменты</div>';
 
         content+='<div id="redactor" class="col-4">Редактор</div>';
 
-        content+='<div class="col-4">';
+        content+='<div class="col-4  overflow-auto" style="height: 90vh;">';
         content+='<div id = "task_brows"></div>';
         content += '<div id = "result"></div>';
         content += '<div id = "variant"></div>';
@@ -69,16 +69,32 @@ class CreateCard
         for (let i = 0; i< data.topics.length; i++)
         {
             let topic =data.topics[i];
-            content +='<details id="'+topic.id+'" onclick="CreateCardController.remember(this)"><summary>' ;
-            content +='<div class="my_item-1"><span >'+topic.name+'</span>' ;
-            content +='<br><a href="#"  onclick="CreateCardController.deleteTopic('+topic.id+')" >  Удалить</a>';
+            content +='<details id="'+topic.id+'" "><summary>' ;
+            content +='<div onclick="CreateCardController.click_topic('+topic.id+')" class="my_item-1"><span >'+topic.name+'</span>' ;
+
+            /*content +='<br><a href="#"  onclick="CreateCardController.deleteTopic('+topic.id+')" >  Удалить</a>';
 
             content +='<a href="#" onclick="CreateCardController.openCardForm('+topic.id+')" >  Определение</a>';
             content +='<a href="#" onclick="CreateCardController.cardFormula('+topic.id+')" >  Формула</a>';
-            content +='<a href="#" onclick="CreateCardController.cardCode('+topic.id+')" >  Код</a>';
+            content +='<a href="#" onclick="CreateCardController.cardCode('+topic.id+')" >  Код</a>';*/
             content +='</div></summary>';
             content +=CreateCard.cardList(topic);
         }
+
+
+        return content;
+    }
+    static typeTestList(data)//список карт в теме
+    {
+        let content ='';
+        //content +='<div class="my_item-1" ><span >'+data.name+'</span>' ;
+
+
+
+        content +='<div  onclick="CreateCardController.openCardForm('+data+')" class="my_item">  Определение</div>';
+        content +='<div  onclick="CreateCardController.cardFormula('+data+')"  class="my_item">  Формула</div>';
+        content +='<div  onclick="CreateCardController.cardCode('+data+')"  class="my_item"> Код</div>';
+        content +='<br><div onclick="CreateCardController.deleteTopic('+data+')"  class="my_item">  Удалить</div>';
 
 
         return content;
@@ -93,7 +109,7 @@ class CreateCard
         for (let i = 0; i< data.cards.length; i++)
         {
             let card = data.cards[i];
-            content +='<div class="my_item-2"><span>'+card.name+'</span>' ;
+            content +='<div class="my_item-2"><div>'+card.name+'</div>' ;
 
             if (card.type==1)
                 content +='<a href="#" id="redact" onclick="CreateCardController.openCardFormContent('+card.id+')" >Редактировать</a>';
@@ -155,12 +171,12 @@ class CreateCard
         content +='<textarea oninput="CreateCardController.update()" id="task" style="width: 80%; height: 100px">'+card.task+'</textarea>';
 
         content+='<p>Содержание</p>';
-        content +='<textarea oninput="CreateCardController.update()" id="card_content" style="width: 80%; height: 300px">'+card.content_mark+'</textarea>';
+        content +='<textarea oninput="CreateCardController.update()" id="card_content" style="width: 80%; height: 400px">'+card.content_mark+'</textarea>';
         content +='<br>';
         content +='<input id="card_id" type="hidden" value="'+card.id+'">';
         content +='<button class="btn btn-primary" onclick="CreateCardController.redactCard()">Обновить</button>';
 
-        content += '<button class="btn btn-primary"  onclick="CreateCardController.click(1)">Выделить</button>';
+        /*content += '<button class="btn btn-primary"  onclick="CreateCardController.click(1)">Выделить</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(2)">Формула</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(3)">Р. Формулу</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(4)">Р. Строку</button>';
@@ -168,7 +184,7 @@ class CreateCard
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(7)">П. Столб</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(5)">Удалить</button>';
         content += '<button class="btn btn-primary"  onclick="CreateCardController.click(8)">Формат</button>';
-        content += '<button class="btn btn-primary" onclick="CreateCardController.check()">Проверить</button>';
+        content += '<button class="btn btn-primary" onclick="CreateCardController.check()">Проверить</button>';*/
 
         content +='<input type="file" name="file" onchange="CreateCardController.addImg()">';
 

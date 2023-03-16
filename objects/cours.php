@@ -8,6 +8,8 @@ class CoursObj
     public $user;
     public $date;
     public $chapters=[];
+    public $count_topic;
+
 
 
 
@@ -56,6 +58,7 @@ class CoursObj
         $this->description=database::select_one_stat("description","cours","WHERE id ='".$id."'");
         $this->user=database::select_one_stat("user","cours","WHERE id ='".$id."'");
         $this->picture=database::select_one_stat("picture","cours","WHERE id ='".$id."'");
+        $this->count_topic = $this->count_topic();
         if($content==true)
             $this->chapters = $this->chapters($content_topic);
     }
@@ -166,5 +169,15 @@ class CoursObj
         {
             die("failed: " . $database->conn->error);
         }
+    }
+    public function count_topic()
+    {
+        $chapter_id=database::select_stat("id","chapter","WHERE cours ='".$this->id."'");
+        $count_topic=0;
+        foreach ($chapter_id as $id)
+        {
+            $count_topic+=count(database::select_stat("id","topic","WHERE chapter ='".$id."'"));
+        }
+        return $count_topic;
     }
 }

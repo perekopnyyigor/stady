@@ -68,6 +68,9 @@ abstract class View
             
                 <title>Studycard</title>
             
+        <link rel="stylesheet" href="../Chem/easychem.css">
+        <script src="../Chem/easychem.js"></script>
+        
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
                 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
