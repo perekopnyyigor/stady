@@ -315,15 +315,50 @@ class User
             echo $date_next->format('Y-m-d')."<br>";
             for ($j=0;$j<3;$j++)
             {
-                $lessons[$count]->change_data($date_next);
+                if($this->calculate($lessons[$count],$date_next))
+                {
+                    $lessons[$count]->change_data($date_next);
 
-                echo $lessons[$count]->topic_name."<br>";
+
+                }
+
+
+
                 $count++;
             }
             $date_next->add(new DateInterval('P1D'));
         }
 
 
+    }
+    public function calculate($lesson,$date)
+    {
+        $result=false;
+
+        $period = pow(2,$lesson->period)-1;
+        $date_allow=0;
+
+        if($period == 31)
+            $date_allow=7;
+        if($period == 15)
+            $date_allow=3;
+        if($period == 7)
+            $date_allow=1;
+
+        $diff = date_diff($date,new DateTime($lesson->date_next))->days;
+
+        if($lesson->days>0)
+        {
+            echo $diff."/".$date_allow."/".$lesson->topic_name."<br>";
+            if($date_allow>$diff)
+                $result=true;
+        }
+        if($lesson->days<0)
+        {
+
+                $result=true;
+        }
+        return $result;
     }
     public function distribut_data()
     {

@@ -140,8 +140,6 @@ class Lesson
         if(new DateTime()>$date_next)
             $this->days = - $this->days;
 
-
-
         $this->raiting = $this->days + $days;
     }
     public function find_try()

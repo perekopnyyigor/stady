@@ -43,6 +43,11 @@ class CardFormulsController
         let text_mark=document.getElementById("card_content").value;
         let task=document.getElementById("task").value;
 
+        let hints = document.getElementsByName("hint");
+        let hint_string="";
+        for (let i =0;i<hints.length;i++)
+            hint_string+=hints[i].value+"{p}";
+
         text_mark=text_mark.split('\\').join("slash");
         task=task.split('\\').join("slash");
 
@@ -70,6 +75,7 @@ class CardFormulsController
             id:id,
             card_name:name,
             card_content:card_content,
+            hint: hint_string,
             card_mark:text_mark,
             task:task
 
@@ -79,6 +85,7 @@ class CardFormulsController
         Model.ajax(data_json,"redact_card")
 
         CreateCardController.onload(CreateCardController.cours_id);
+        CreateCardController.openCardFormContent(id);
 
     }
     static click()
